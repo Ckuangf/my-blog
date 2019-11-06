@@ -1,5 +1,5 @@
 server:
-  port: 28084
+  port: 80
 
 spring:
   datasource:
@@ -52,7 +52,7 @@ spring:
       stat-view-servlet:
         enabled: true
         login-username: admin
-        login-password: z1320291471
+        login-password: cifor
   thymeleaf:
     cache: false
     mode: LEGACYHTML5
