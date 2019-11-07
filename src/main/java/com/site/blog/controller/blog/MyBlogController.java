@@ -237,7 +237,6 @@ public class MyBlogController {
                 .eq(BlogTagRelation::getBlogId, blogId));
         blogInfo.setBlogViews(blogInfo.getBlogViews() + 1);
         blogInfoService.updateById(blogInfo);
-
         // 获得关联的标签列表
         List<Integer> tagIds = new ArrayList<>();
         List<BlogTag> tagList = new ArrayList<>();

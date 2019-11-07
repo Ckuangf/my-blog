@@ -22,6 +22,10 @@ public class AdminLoginInterceptor implements HandlerInterceptor {
             return false;
         } else {
             request.getSession().removeAttribute("errorMsg");
+            if(uri.equalsIgnoreCase("/admin")){
+                response.sendRedirect(request.getContextPath() + "/admin/v1/index");
+                return false;
+            }
             return true;
         }
     }
