@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * 友情链接表
  * </p>
  *
- * @author: 南街
+ * @author: Cifor
  * @since 2019-09-02
  */
 @Data

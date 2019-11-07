@@ -1,5 +1,7 @@
 package com.site.blog.controller.admin;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.site.blog.constants.HttpStatusConstants;
 import com.site.blog.dto.AjaxResultPage;
 import com.site.blog.dto.Result;
@@ -47,12 +49,14 @@ public class ConfigController {
     @GetMapping("/v1/blogConfig/list")
     public AjaxResultPage<BlogConfig> getBlogConfig(){
         AjaxResultPage<BlogConfig> ajaxResultPage = new AjaxResultPage<>();
-        List<BlogConfig> list = blogConfigService.list();
+        QueryWrapper<BlogConfig> blogConfigQueryWrapper = new QueryWrapper<>();
+        blogConfigQueryWrapper.eq("default_flag","0");
+        List<BlogConfig> list = blogConfigService.list(blogConfigQueryWrapper);
         if (CollectionUtils.isEmpty(list)){
             ajaxResultPage.setCode(500);
             return ajaxResultPage;
         }
-        ajaxResultPage.setData(blogConfigService.list());
+        ajaxResultPage.setData(list);
         return ajaxResultPage;
     }
 
@@ -68,6 +72,9 @@ public class ConfigController {
         blogConfig.setUpdateTime(DateUtils.getLocalCurrentDate());
         boolean flag = blogConfigService.updateById(blogConfig);
         if (flag){
+            BlogConfig one = blogConfigService.getOne(new QueryWrapper<BlogConfig>().eq("config_field", "sysUpdateTime"));
+            one.setConfigValue(DateUtils.getLocalCurrentDate().toString());
+            blogConfigService.updateById(one);
             return ResultGenerator.getResultByHttp(HttpStatusConstants.OK);
         }else{
             return ResultGenerator.getResultByHttp(HttpStatusConstants.INTERNAL_SERVER_ERROR);

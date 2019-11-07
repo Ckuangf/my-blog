@@ -34,12 +34,13 @@
                     <span class="x-red">*</span>头像</label>
                 <div class="cifor-inline cifor-upload-list">
                     <img class="cifor-upload-img" id="authorImg"
-                         th:src="@{{authorImg}(authorImg=${session.authorImg.configValue})}">
+                         th:src="@{${session.authorImg.configValue}}">
                     <p id="uploadErrorText"></p>
                 </div>
                 <div class="cifor-inline">
                     <button type="button" class="cifor-btn" id="previewImg">预览图片</button>
                     <button type="button" class="cifor-btn" id="uploadImg">开始上传</button>
+                    <button type="button" class="cifor-btn" id="changePasswd">密码修改</button>
                     <input name="sysAuthorImg" type="hidden" id="authorImgUrl" th:value="${session.authorImg.configValue}">
                 </div>
             </div>
@@ -57,27 +58,29 @@
                     <input type="text" id="L_nickName" name="nickName" lay-verify="required|nickName"
                            autocomplete="off" class="cifor-input" th:value="${session.loginNickName}"></div>
             </div>
-            <div class="cifor-form-item">
-                <label for="L_oldPwd" class="cifor-form-label">
-                    <span class="x-red">*</span>旧密码</label>
-                <div class="cifor-input-inline">
-                    <input type="password" id="L_oldPwd" name="oldPwd" lay-verify="required|oldPwd" autocomplete="off"
-                           class="cifor-input"></div>
-            </div>
-            <div class="cifor-form-item">
-                <label for="L_newPwd" class="cifor-form-label">
-                    <span class="x-red">*</span>新密码</label>
-                <div class="cifor-input-inline">
-                    <input type="password" id="L_newPwd" name="newPwd" lay-verify="required|newPwd" autocomplete="off"
-                           class="cifor-input"></div>
-                <div class="cifor-form-mid cifor-word-aux">6到16个字符</div>
-            </div>
-            <div class="cifor-form-item">
-                <label for="L_confirmPwd" class="cifor-form-label">
-                    <span class="x-red">*</span>确认密码</label>
-                <div class="cifor-input-inline">
-                    <input type="password" id="L_confirmPwd" name="confirmPwd" lay-verify="required|confirmPwd"
-                           autocomplete="off" class="cifor-input"></div>
+            <div id="passwdArea" style="display: none">
+                <div class="cifor-form-item">
+                    <label for="L_oldPwd" class="cifor-form-label">
+                        <span class="x-red">*</span>旧密码</label>
+                    <div class="cifor-input-inline">
+                        <input type="password" id="L_oldPwd" name="oldPwd" lay-verify="oldPwd" autocomplete="off"
+                               class="cifor-input"></div>
+                </div>
+                <div class="cifor-form-item">
+                    <label for="L_newPwd" class="cifor-form-label">
+                        <span class="x-red">*</span>新密码</label>
+                    <div class="cifor-input-inline">
+                        <input type="password" id="L_newPwd" name="newPwd" lay-verify="newPwd" autocomplete="off"
+                               class="cifor-input"></div>
+                    <div class="cifor-form-mid cifor-word-aux">6到16个字符</div>
+                </div>
+                <div class="cifor-form-item">
+                    <label for="L_confirmPwd" class="cifor-form-label">
+                        <span class="x-red">*</span>确认密码</label>
+                    <div class="cifor-input-inline">
+                        <input type="password" id="L_confirmPwd" name="confirmPwd" lay-verify="confirmPwd"
+                               autocomplete="off" class="cifor-input"></div>
+                </div>
             </div>
             <div class="cifor-form-item">
                 <label class="cifor-form-label"></label>
@@ -90,6 +93,9 @@
 
     cifor.use(['form', 'layer', 'upload'], function () {
         $ = cifor.jquery;
+        $("#changePasswd").click(function () {
+            $("#passwdArea").toggle();
+        });
         var form = cifor.form,
             upload = cifor.upload,
             layer = cifor.layer;
@@ -131,24 +137,43 @@
                 }
             },
             oldPwd: function (value, item) {
-                var resultCode;
-                $.ajax({
-                    url: "/admin/v1/password",
-                    type: "GET",
-                    async: false,       //关闭异步
-                    data: {"oldPwd": value},
-                    success: function (s) {
-                        resultCode = s.resultCode;
+                if(!$("#passwdArea").is(":hidden")){
+                    var reg = /[\S]+/;
+                    if(!reg.test(value)){
+                        return "必填项不能为空";
                     }
-                });
-                if (resultCode != 200) {
-                    return '旧密码错误，请重新输入！';
+                    var resultCode;
+                    $.ajax({
+                        url: "/admin/v1/password",
+                        type: "GET",
+                        async: false,       //关闭异步
+                        data: {"oldPwd": value},
+                        success: function (s) {
+                            resultCode = s.resultCode;
+                        }
+                    });
+                    if (resultCode != 200) {
+                        return '旧密码错误，请重新输入！';
+                    }
                 }
             },
-            newPwd: [/(.+){6,12}$/, '密码必须6到12位'],
+            newPwd: function (value){
+                if(!$("#passwdArea").is(":hidden")){
+                    var reg = /[\S]+/;
+                    if(!reg.test(value)){
+                        return "必填项不能为空";
+                    }
+                    var reg = /(.+){6,12}$/;
+                    if(!reg.test(value)){
+                        return '密码必须6到12位';
+                    }
+                }
+            },
             confirmPwd: function (value) {
-                if ($('#L_newPwd').val() != $('#L_confirmPwd').val()) {
-                    return '两次密码不一致';
+                if(!$("#passwdArea").is(":hidden")){
+                    if ($('#L_newPwd').val() != $('#L_confirmPwd').val()) {
+                        return '两次密码不一致';
+                    }
                 }
             }
         });
@@ -162,12 +187,18 @@
                 data: data.field,
                 success: function (s) {
                     if (s.resultCode == 200) {
-                        layer.alert("修改成功，即将跳转登录页", {
-                                icon: 6
+                        if(s.data == "password not change"){
+                            layer.alert("用户信息修改成功");
+                        } else {
+                            layer.msg(
+                                "修改成功，即将跳转登录页", {
+                                icon: 6,
+                                time: 2000
                             }, function (index) {
                                 parent.layer.closeAll();
                                 parent.location.href = s.data;
                             });
+                        }
                     } else {
                         layer.msg(s.message, function () {
                         });

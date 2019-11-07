@@ -4,7 +4,7 @@ package com.site.blog.constants;
  * @program: itoken
  * @classname: HttpStatusConstants
  * @description: Http状态常量
- * @author: 南街
+ * @author: Cifor
  * @create: 2019-08-15 09:11
  **/
 public enum  HttpStatusConstants {

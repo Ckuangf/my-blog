@@ -4,7 +4,7 @@ package com.site.blog.constants;
  * @program: my-blog
  * @classname: SysConfigContants
  * @description: blog配置项枚举
- * @author: 南街
+ * @author: Cifor
  * @create: 2019-08-24 13:57
  **/
 public enum SysConfigConstants {

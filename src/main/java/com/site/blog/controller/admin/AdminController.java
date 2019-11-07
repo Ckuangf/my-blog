@@ -61,7 +61,7 @@ public class AdminController {
      * @date: 2019/8/24 9:42
      */
     @GetMapping("/v1/welcome")
-    public String welcome(){
+    public String welcome() {
         return "adminCifor/welcome";
     }
 
@@ -84,7 +84,7 @@ public class AdminController {
      * @date: 2019/8/24 15:02
      */
     @GetMapping("/v1/userInfo")
-    public String gotoUserInfo(){
+    public String gotoUserInfo() {
         return "adminCifor/userInfo-edit";
     }
 
@@ -103,7 +103,7 @@ public class AdminController {
         }
         QueryWrapper<AdminUser> queryWrapper = new QueryWrapper<AdminUser>(
                 new AdminUser().setLoginUserName(username)
-                        .setLoginPassword(MD5Utils.MD5Encode(password,"UTF-8"))
+                        .setLoginPassword(MD5Utils.MD5Encode(password, "UTF-8"))
         );
         AdminUser adminUser = adminUserService.getOne(queryWrapper);
         if (adminUser != null) {
@@ -112,7 +112,7 @@ public class AdminController {
             session.setAttribute(SessionConstants.LOGIN_USER_NAME, adminUser.getLoginUserName());
             session.setAttribute(SessionConstants.AUTHOR_IMG, blogConfigService.getById(
                     SysConfigConstants.SYS_AUTHOR_IMG.getConfigField()));
-            return ResultGenerator.getResultByHttp(HttpStatusConstants.OK,"/admin/v1/index");
+            return ResultGenerator.getResultByHttp(HttpStatusConstants.OK, "/admin/v1/index");
         } else {
             return ResultGenerator.getResultByHttp(HttpStatusConstants.UNAUTHORIZED);
         }
@@ -126,10 +126,10 @@ public class AdminController {
      */
     @ResponseBody
     @GetMapping("/v1/password")
-    public Result validatePassword(String oldPwd,HttpSession session){
+    public Result validatePassword(String oldPwd, HttpSession session) {
         Integer userId = (Integer) session.getAttribute(SessionConstants.LOGIN_USER_ID);
-        boolean flag = adminUserService.validatePassword(userId,oldPwd);
-        if (flag){
+        boolean flag = adminUserService.validatePassword(userId, oldPwd);
+        if (flag) {
             return ResultGenerator.getResultByHttp(HttpStatusConstants.OK);
         }
         return ResultGenerator.getResultByHttp(HttpStatusConstants.BAD_REQUEST);
@@ -163,21 +163,21 @@ public class AdminController {
                 new QueryWrapper<BlogComment>().lambda().eq(BlogComment::getIsDeleted,
                         BlogStatusConstants.ZERO)
         ));
-        session.setAttribute("sysList",blogConfigService.list());
+        session.setAttribute("sysList", blogConfigService.list());
         return "adminCifor/index";
     }
 
     /**
-     * @Description: 修改用户信息,成功之后清空session并跳转登录页
+     * @Description: 修改用户信息, 成功之后清空session并跳转登录页
      * @Param: [session, newPwd, nickName]
      * @return: com.zhulin.blog.dto.Result
      * @date: 2019/8/25 11:06
      */
     @ResponseBody
     @PostMapping("/v1/userInfo")
-    public Result userInfoUpdate(HttpSession session,String userName, String newPwd,
+    public Result userInfoUpdate(HttpSession session, String userName, String newPwd,
                                  String nickName, String sysAuthorImg) {
-        if (StringUtils.isEmpty(newPwd) || StringUtils.isEmpty(nickName)) {
+        if (StringUtils.isEmpty(nickName)) {
             return ResultGenerator.getResultByHttp(HttpStatusConstants.BAD_REQUEST);
         }
         Integer loginUserId = (int) session.getAttribute(SessionConstants.LOGIN_USER_ID);
@@ -187,11 +187,19 @@ public class AdminController {
         AdminUser adminUser = new AdminUser()
                 .setAdminUserId(loginUserId)
                 .setLoginUserName(userName)
-                .setNickName(nickName)
-                .setLoginPassword(MD5Utils.MD5Encode(newPwd, "UTF-8"));
-        if (adminUserService.updateUserInfo(adminUser,blogConfig)) {
-            //修改成功后清空session中的数据，前端控制跳转至登录页
-            return ResultGenerator.getResultByHttp(HttpStatusConstants.OK,"/admin/v1/logout");
+                .setNickName(nickName);
+        session.setAttribute(SessionConstants.LOGIN_USER_ID,userName);
+        session.setAttribute(SessionConstants.LOGIN_USER,nickName);
+        if (!StringUtils.isEmpty(newPwd)) {
+            adminUser.setLoginPassword(MD5Utils.MD5Encode(newPwd, "UTF-8"));
+        }
+        if (adminUserService.updateUserInfo(adminUser, blogConfig)) {
+            if (StringUtils.isEmpty(newPwd)) {
+                return ResultGenerator.getResultByHttp(HttpStatusConstants.OK, "password not change");
+            } else {
+                //修改密码成功后清空session中的数据，前端控制跳转至登录页
+                return ResultGenerator.getResultByHttp(HttpStatusConstants.OK, "/admin/v1/logout");
+            }
         } else {
             return ResultGenerator.getResultByHttp(HttpStatusConstants.INTERNAL_SERVER_ERROR);
         }
@@ -199,7 +207,7 @@ public class AdminController {
 
     @ResponseBody
     @GetMapping("/v1/reload")
-    public boolean reload(HttpSession session){
+    public boolean reload(HttpSession session) {
         Integer userId = (Integer) session.getAttribute(SessionConstants.LOGIN_USER_ID);
         return userId != null && userId != 0;
     }

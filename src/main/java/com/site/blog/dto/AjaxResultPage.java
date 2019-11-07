@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @program: FreeMarkeDemo
  * @description: 分页表格数据返回
- * @author: 南街
+ * @author: Cifor
  * @create: 2019-01-02 15:31
  **/
 public class AjaxResultPage<T> implements Serializable {

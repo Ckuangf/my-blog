@@ -41,7 +41,7 @@ public class UploadController {
         String newFileName = UploadFileUtils.getNewFileName(suffixName);
         File fileDirectory = new File(UploadConstants.UPLOAD_AUTHOR_IMG);
         //创建文件
-        File destFile = new File(UploadConstants.UPLOAD_AUTHOR_IMG + newFileName);
+        File destFile = new File(new File(UploadConstants.UPLOAD_AUTHOR_IMG).getAbsolutePath() + "/" + newFileName);
         try {
             if (!fileDirectory.exists()) {
                 if (!fileDirectory.mkdirs()) {
@@ -51,7 +51,7 @@ public class UploadController {
             file.transferTo(destFile);
             Result resultSuccess = ResultGenerator.getResultByHttp(HttpStatusConstants.OK);
             resultSuccess.setData(MyBlogUtils.getHost(new URI(httpServletRequest.getRequestURL() + ""))
-                    + UploadConstants.SQL_AUTHOR_IMG + newFileName);
+                    + "/" + UploadConstants.SQL_AUTHOR_IMG + newFileName);
             return resultSuccess;
         } catch (IOException e) {
             e.printStackTrace();

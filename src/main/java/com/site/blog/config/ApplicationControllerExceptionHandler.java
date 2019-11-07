@@ -15,7 +15,7 @@ import java.util.Objects;
 /**
  * @program: FruitSales
  * @description: 全局异常统一处理类
- * @author: 南街
+ * @author: Cifor
  * @create: 2019-01-17 10:24
  **/
 

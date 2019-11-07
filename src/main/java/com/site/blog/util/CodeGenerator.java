@@ -16,7 +16,7 @@ import java.util.Scanner;
 /**
  * @classname: CodeGenerator
  * @description: mybatisplus代码生成器
- * @author: 南街
+ * @author: Cifor
  **/
 public class CodeGenerator {
 

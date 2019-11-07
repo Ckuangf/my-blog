@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * 友情链接表 服务类
  * </p>
  *
- * @author: 南街
+ * @author: Cifor
  * @since 2019-09-02
  */
 public interface BlogLinkService extends IService<BlogLink> {

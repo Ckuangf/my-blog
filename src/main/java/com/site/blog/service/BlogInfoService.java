@@ -11,7 +11,7 @@ import java.util.List;
  * 博客信息表 服务类
  * </p>
  *
- * @author: 南街
+ * @author: Cifor
  * @since 2019-08-27
  */
 public interface BlogInfoService extends IService<BlogInfo> {

@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
  * 
  * </p>
  *
- * @author: 南街
+ * @author: Cifor
  * @since 2019-08-30
  */
 @Data
@@ -53,5 +53,10 @@ private static final long serialVersionUID=1L;
     @TableField("update_time")
     private Date updateTime;
 
+    /**
+     * 是否是默认字段
+     */
+    @TableField("default_flag")
+    private Integer default_flag;
 
 }

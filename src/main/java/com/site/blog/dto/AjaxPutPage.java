@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 /**
  * @program: FreeMarkeDemo
  * @description: 分页查询[带条件]输入映射
- * @author: 南街
+ * @author: Cifor
  * @create: 2019-01-03 11:40
  **/
 public class AjaxPutPage<T> {

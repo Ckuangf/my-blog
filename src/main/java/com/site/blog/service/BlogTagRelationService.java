@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * 博客跟标签的关系表 服务类
  * </p>
  *
- * @author: 南街
+ * @author: Cifor
  * @since 2019-08-28
  */
 public interface BlogTagRelationService extends IService<BlogTagRelation> {

@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
  * 评论信息表
  * </p>
  *
- * @author: 南街
+ * @author: Cifor
  * @since 2019-09-04
  */
 @Data

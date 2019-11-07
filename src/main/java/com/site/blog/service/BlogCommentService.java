@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * 评论信息表 服务类
  * </p>
  *
- * @author: 南街
+ * @author: Cifor
  * @since 2019-09-04
  */
 public interface BlogCommentService extends IService<BlogComment> {

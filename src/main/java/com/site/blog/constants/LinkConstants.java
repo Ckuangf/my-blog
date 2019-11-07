@@ -4,7 +4,7 @@ package com.site.blog.constants;
  * @program: my-blog
  * @classname: LinkConstants
  * @description:
- * @author: 南街
+ * @author: Cifor
  * @create: 2019-09-02 21:18
  **/
 public enum LinkConstants {

@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
  * 后台管理员信息表
  * </p>
  *
- * @author: 南街
+ * @author: Cifor
  * @since 2019-08-25
  */
 @Data

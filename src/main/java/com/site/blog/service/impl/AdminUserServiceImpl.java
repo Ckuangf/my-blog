@@ -19,7 +19,7 @@ import org.springframework.util.StringUtils;
  * 后台管理员信息表 服务实现类
  * </p>
  *
- * @author: 南街
+ * @author: Cifor
  * @since 2019-08-25
  */
 @Service

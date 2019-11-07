@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * 友情链接表 服务实现类
  * </p>
  *
- * @author: 南街
+ * @author: Cifor
  * @since 2019-09-02
  */
 @Service

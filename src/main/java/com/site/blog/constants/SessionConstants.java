@@ -4,7 +4,7 @@ package com.site.blog.constants;
  * @program: my-blog
  * @classname: SessionConstants
  * @description: session会话常量
- * @author: 南街
+ * @author: Cifor
  * @create: 2019-08-25 09:16
  **/
 public class SessionConstants {
