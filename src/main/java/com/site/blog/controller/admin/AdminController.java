@@ -11,10 +11,12 @@ import com.site.blog.service.*;
 import com.site.blog.util.MD5Utils;
 import com.site.blog.util.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -142,7 +144,7 @@ public class AdminController {
      * @date: 2019/8/24 9:41
      */
     @GetMapping("/v1/index")
-    public String index(HttpSession session) {
+    public String index(HttpSession session, HttpServletRequest request) {
         session.setAttribute("categoryCount", blogCategoryService.count(
                 new QueryWrapper<BlogCategory>().lambda().eq(BlogCategory::getIsDeleted,
                         BlogStatusConstants.ZERO)
@@ -164,6 +166,7 @@ public class AdminController {
                         BlogStatusConstants.ZERO)
         ));
         session.setAttribute("sysList", blogConfigService.list());
+        request.setAttribute("configurations", blogConfigService.getAllConfigs());
         return "adminCifor/index";
     }
 

@@ -86,7 +86,7 @@
 <!-- editor.md -->
 <script type="text/javascript" th:src="@{/X-admin/editormd/src/editormd.js}"></script>
 <script th:inline="javascript">
-    cifor.use(['form', 'layer'], function () {
+    cifor.use(['jquery', 'form', 'layer'], function () {
         var layer = cifor.layer,
             form = cifor.form,
             $ = cifor.$;
@@ -105,7 +105,6 @@
             onload: function (obj) {
             }
         });
-
         var formSelects = cifor.formSelects;
         //动态加载标签配置
         formSelects.config("tagId", {
@@ -130,21 +129,26 @@
                 dataName: 'data'        //data key
             }
         });
-        var blogCategoryIds = new Array();
-        blogCategoryIds[0] = [[${blogInfo?.blogCategoryId}]];
-        formSelects.data('tagId', 'server', {
-            url: '/admin/v1/tags/list',
-            success: function (id, url, searchVal, result) {
-                formSelects.value('tagId', [[${blogTags}]], true);
-            }
+        document.querySelector("div[fs_id=tagId]").addEventListener("click",function (evt) {
+            console.info("1111");
+            formSelects.data('tagId', 'server', {
+                url: '/admin/v1/tags/list',
+                success: function (id, url, searchVal, result) {
+                    formSelects.value('tagId', [[${blogTags}]], true);
+                }
+            });
         });
-        formSelects.data('blogCategoryId', 'server', {
-            url: '/admin/v1/category/list',
-            success: function (id, url, searchVal, result) {
-                formSelects.value('blogCategoryId', blogCategoryIds, true);
-            }
+        document.querySelector("div[fs_id=blogCategoryId]").addEventListener("click",function (evt) {
+            console.info("2222");
+            var blogCategoryIds = new Array();
+            blogCategoryIds[0] = [[${blogInfo?.blogCategoryId}]];
+            formSelects.data('blogCategoryId', 'server', {
+                url: '/admin/v1/category/list',
+                success: function (id, url, searchVal, result) {
+                    formSelects.value('blogCategoryId', blogCategoryIds, true);
+                }
+            });
         });
-
         form.verify({
             blogPreface: function (value, item) { //value：表单的值、item：表单的DOM对象
                 console.log(value.length);
@@ -153,8 +157,6 @@
                 }
             }
         });
-
-
         form.on("submit(submit)", function (data) {
             var datas = data.field;
             datas.blogCategoryName = formSelects.value('blogCategoryId', 'nameStr');
