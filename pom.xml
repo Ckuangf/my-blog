@@ -105,6 +105,12 @@
             <optional>true</optional> <!-- 表示依赖不会传递 -->
         </dependency>
 
+        <dependency>
+            <groupId>com.gitee.sunchenbin.mybatis.actable</groupId>
+            <artifactId>mybatis-enhance-actable</artifactId>
+            <version>1.0.3</version>
+        </dependency> <!-- 自动建表 -->
+
     </dependencies>
 
     <build>

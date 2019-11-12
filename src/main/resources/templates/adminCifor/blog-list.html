@@ -65,10 +65,10 @@
 <script type="text/html" id="enableCommentTool">
     {{#  if(d.enableComment == 1){ }}
     <input type="checkbox" name="enableComment" lay-filter="enableComment"
-           lay-skin="switch" value="{{d.blogId}}" lay-text="不允许评论|允许评论" checked>
+           lay-skin="switch" value="{{d.blogId}}" lay-text="允许评论|不允许评论" >
     {{#  } else { }}
     <input type="checkbox" name="enableComment" lay-filter="enableComment"
-           lay-skin="switch" value="{{d.blogId}}" lay-text="不允许评论|允许评论">
+           lay-skin="switch" value="{{d.blogId}}" lay-text="允许评论|不允许评论" checked>
     {{#  } }}
 </script>
 <script type="text/html" id="blogListBar">
@@ -169,7 +169,7 @@
         });
 
         form.on('switch(enableComment)', function (data) {
-            var enableComment = data.elem.checked ? 1 : 0; //1为不允许评论,0为允许评论
+            var enableComment = data.elem.checked ? 0 : 1; //1为不允许评论,0为允许评论
             var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
             $.post("/admin/v1/blog/blogStatus",
                 {
