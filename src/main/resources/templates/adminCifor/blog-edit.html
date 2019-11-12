@@ -130,7 +130,6 @@
             }
         });
         document.querySelector("div[fs_id=tagId]").addEventListener("click",function (evt) {
-            console.info("1111");
             formSelects.data('tagId', 'server', {
                 url: '/admin/v1/tags/list',
                 success: function (id, url, searchVal, result) {
@@ -139,7 +138,6 @@
             });
         });
         document.querySelector("div[fs_id=blogCategoryId]").addEventListener("click",function (evt) {
-            console.info("2222");
             var blogCategoryIds = new Array();
             blogCategoryIds[0] = [[${blogInfo?.blogCategoryId}]];
             formSelects.data('blogCategoryId', 'server', {
