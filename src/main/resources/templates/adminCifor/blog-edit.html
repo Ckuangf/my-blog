@@ -129,15 +129,19 @@
                 dataName: 'data'        //data key
             }
         });
-        document.querySelector("div[fs_id=tagId]").addEventListener("click",function (evt) {
+        document.querySelector("div[fs_id=tagId]").children[0].children[1].addEventListener("click",function (evt) {
             formSelects.data('tagId', 'server', {
                 url: '/admin/v1/tags/list',
                 success: function (id, url, searchVal, result) {
+                    console.info(result);
+                    console.info([[${blogTags}]]);
+                    console.info(evt.target);
+
                     formSelects.value('tagId', [[${blogTags}]], true);
                 }
             });
         });
-        document.querySelector("div[fs_id=blogCategoryId]").addEventListener("click",function (evt) {
+        document.querySelector("div[fs_id=blogCategoryId]").children[0].addEventListener("click",function (evt) {
             var blogCategoryIds = new Array();
             blogCategoryIds[0] = [[${blogInfo?.blogCategoryId}]];
             formSelects.data('blogCategoryId', 'server', {
