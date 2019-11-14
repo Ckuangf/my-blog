@@ -44,7 +44,7 @@ public class TagController {
 
     @GetMapping("/v1/tags")
     public String gotoTag(){
-        return "adminCifor/tag-list";
+        return "adminlayui/tag-list";
     }
 
     /**

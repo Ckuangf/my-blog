@@ -1,5 +1,5 @@
 @charset "utf-8";
-@import url(../lib/cifor/css/cifor.css);
+@import url(../lib/layui/css/layui.css);
 *{
     margin: 0px;
     padding: 0px;
@@ -24,14 +24,14 @@ body{
     color: red;
 }
 
-.cifor-form-switch{
+.layui-form-switch{
     margin-top: 0px;
 }
-.cifor-input:focus, .cifor-textarea:focus {
+.layui-input:focus, .layui-textarea:focus {
     border-color: #189f92!important;
 }
 
-.cifor-fluid{
+.layui-fluid{
     padding:15px;
 }
 .x-nav{
@@ -90,7 +90,7 @@ body{
     height: 45px;
     background-color: #222;
 }
-.container a,.cifor-nav .cifor-nav-item a{
+.container a,.layui-nav .layui-nav-item a{
     color: #fff;
 }
 .container .logo a{
@@ -133,22 +133,22 @@ body{
     float: left;
 
 }
-.container .cifor-nav-item{
+.container .layui-nav-item{
     line-height: 45px;
 }
-.container .cifor-nav-more{
+.container .layui-nav-more{
     top: 20px;
 }
-.container .cifor-nav-child{
+.container .layui-nav-child{
     top: 50px;
 }
-.container .cifor-nav-child i{
+.container .layui-nav-child i{
     margin-right: 10px;
 }
-.cifor-nav .cifor-nav-item a{
+.layui-nav .layui-nav-item a{
     cursor: pointer;
 }
-.cifor-nav .cifor-nav-child a{
+.layui-nav .layui-nav-child a{
     color: #333;
     cursor: pointer;
 }
@@ -278,36 +278,36 @@ body{
     /*background: #EFEEF0;*/
     margin: 0px;
 }
-.page-content .cifor-tab-title{
+.page-content .layui-tab-title{
     /*padding-top: 5px;*/
     height: 35px;
     background: #EFEEF0 ;
     position: relative;
     z-index: 100;
 }
-.page-content .cifor-tab-title li.home i{
+.page-content .layui-tab-title li.home i{
     padding-right: 5px;
 }
-.page-content .cifor-tab-title li.home .cifor-tab-close{
+.page-content .layui-tab-title li.home .layui-tab-close{
     display: none;
 }
-.page-content .cifor-tab-title li{
+.page-content .layui-tab-title li{
     line-height: 35px;
 }
-.page-content .cifor-tab-title .cifor-this:after{
+.page-content .layui-tab-title .layui-this:after{
     height: 36px;
 }
-.page-content .cifor-tab-title li .cifor-tab-close{
+.page-content .layui-tab-title li .layui-tab-close{
     border-radius: 50%;
 }
-.page-content .cifor-tab-title .cifor-this{
+.page-content .layui-tab-title .layui-this{
     background: #fff ;
 }
-.page-content .cifor-tab-bar{
+.page-content .layui-tab-bar{
     height:34px;
     line-height: 35px;
 }
-.page-content .cifor-tab-content{
+.page-content .layui-tab-content{
     position: absolute;
     top: 36px;
     bottom: 0px;
@@ -315,17 +315,17 @@ body{
     padding: 0px;
     overflow: hidden;
 }
-.page-content .cifor-tab-content .cifor-tab-item{
+.page-content .layui-tab-content .layui-tab-item{
     width: 100%;
     height: 100%;
     
 }
-.page-content .cifor-tab-content .cifor-tab-item iframe{
+.page-content .layui-tab-content .layui-tab-item iframe{
     width: 100%;
     height: 100%;
 
 }
-.x-admin-carousel,.cifor-carousel,.x-admin-carousel>[carousel-item]>* {
+.x-admin-carousel,.layui-carousel,.x-admin-carousel>[carousel-item]>* {
     background-color:#fff
 }
 
@@ -353,7 +353,7 @@ body{
     color:#888
 }
 
-.cifor-table td, .cifor-table th{
+.layui-table td, .layui-table th{
     min-width: 80px;
 }
 
@@ -374,7 +374,7 @@ table th, table td {
     padding-top: 50px;
     color: #999;
 }
-.fly-none .cifor-icon {
+.fly-none .layui-icon {
     line-height: 300px;
     font-size: 300px;
     color: #393D49;
@@ -412,7 +412,7 @@ table th, table td {
     .fast-add{
         display: none;
     }
-    .cifor-nav .to-index{
+    .layui-nav .to-index{
         display: none;
     }
     .container .logo a{
@@ -433,11 +433,11 @@ table th, table td {
     .page-content{
         left: 60px;
     }
-    .page-content .cifor-tab-content .cifor-tab-item{
+    .page-content .layui-tab-content .layui-tab-item{
         -webkit-overflow-scrolling: touch; 
         overflow-y: scroll; 
     }
-    .x-so input.cifor-input{
+    .x-so input.layui-input{
         width: 100%;
         margin: 10px;
     }
@@ -465,10 +465,10 @@ table th, table td {
     font-size: 14px;
 }
 
-.x-admin-sm .cifor-table td, .x-admin-sm .cifor-table th{
+.x-admin-sm .layui-table td, .x-admin-sm .layui-table th{
     font-size: 12px;
 }
-.x-admin-sm .cifor-elem-field legend{
+.x-admin-sm .layui-elem-field legend{
     font-size: 18px;
 }
 
@@ -481,52 +481,52 @@ table th, table td {
 .x-admin-sm .iconfont{
     font-size: 14px;
 }
-.x-admin-sm .cifor-tab-title li{
+.x-admin-sm .layui-tab-title li{
     font-size: 12px;
 }
-.x-admin-sm .cifor-icon{
+.x-admin-sm .layui-icon{
     font-size: 14px;
 }
-.x-admin-sm .cifor-nav *{
+.x-admin-sm .layui-nav *{
     font-size: 12px;
 }
-.x-admin-sm  .cifor-breadcrumb>*{
+.x-admin-sm  .layui-breadcrumb>*{
    font-size: 12px; 
 }
-.x-admin-sm  .cifor-btn,.x-admin-sm .cifor-btn-xs,.x-admin-sm .cifor-btn-sm{
+.x-admin-sm  .layui-btn,.x-admin-sm .layui-btn-xs,.x-admin-sm .layui-btn-sm{
     font-size: 12px;
 }
 
-.x-admin-sm .cifor-laydate{
+.x-admin-sm .layui-laydate{
     font-size: 12px;
 }
-.x-admin-sm  .cifor-btn{
+.x-admin-sm  .layui-btn{
     height: 30px;
     line-height: 30px;
     padding: 0 10px;
 }
 
-.x-admin-sm .cifor-btn-lg{
+.x-admin-sm .layui-btn-lg{
     height: 38px;
     line-height: 38px;
     padding: 0 18px;
     font-size: 14px;
 }
-.x-admin-sm .cifor-layer-title,.x-admin-sm .cifor-layer-dialog .cifor-layer-content{
+.x-admin-sm .layui-layer-title,.x-admin-sm .layui-layer-dialog .layui-layer-content{
     font-size: 12px;
 }
-.x-admin-sm .cifor-input,.x-admin-sm .cifor-select,.x-admin-sm .cifor-textarea{
+.x-admin-sm .layui-input,.x-admin-sm .layui-select,.x-admin-sm .layui-textarea{
     height: 30px;
 }
 
-.x-admin-sm .cifor-form-pane .cifor-form-label{
+.x-admin-sm .layui-form-pane .layui-form-label{
     height: 30px;
     line-height: 14px;
 }
-.x-admin-sm .cifor-form-checkbox span{
+.x-admin-sm .layui-form-checkbox span{
     font-size: 12px;
 }
-.x-admin-sm .fly-none .cifor-icon {
+.x-admin-sm .fly-none .layui-icon {
     line-height: 300px;
     font-size: 300px;
     color: #393D49;

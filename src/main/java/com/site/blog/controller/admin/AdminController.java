@@ -53,7 +53,7 @@ public class AdminController {
      */
     @GetMapping(value = "/v1/login")
     public String login() {
-        return "adminCifor/login";
+        return "adminLayui/login";
     }
 
     /**
@@ -64,7 +64,7 @@ public class AdminController {
      */
     @GetMapping("/v1/welcome")
     public String welcome() {
-        return "adminCifor/welcome";
+        return "adminlayui/welcome";
     }
 
     /**
@@ -76,7 +76,7 @@ public class AdminController {
     @GetMapping("/v1/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "adminCifor/login";
+        return "adminLayui/login";
     }
 
     /**
@@ -87,7 +87,7 @@ public class AdminController {
      */
     @GetMapping("/v1/userInfo")
     public String gotoUserInfo() {
-        return "adminCifor/userInfo-edit";
+        return "adminlayui/userInfo-edit";
     }
 
     /**
@@ -167,7 +167,7 @@ public class AdminController {
         ));
         session.setAttribute("sysList", blogConfigService.list());
         request.setAttribute("configurations", blogConfigService.getAllConfigs());
-        return "adminCifor/index";
+        return "adminlayui/index";
     }
 
     /**

@@ -78,7 +78,7 @@ public class BlogController {
             model.addAttribute("blogTags",tags);
             model.addAttribute("blogInfo",blogInfo);
         }
-        return "adminCifor/blog-edit";
+        return "adminlayui/blog-edit";
     }
 
     /**
@@ -88,7 +88,7 @@ public class BlogController {
      */
     @GetMapping("/v1/blog")
     public String gotoBlogList(){
-        return "adminCifor/blog-list";
+        return "adminlayui/blog-list";
     }
 
     /**

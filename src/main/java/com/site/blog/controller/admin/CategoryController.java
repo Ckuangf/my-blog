@@ -61,7 +61,7 @@ public class CategoryController {
 
     @GetMapping("/v1/category")
     public String gotoBlogCategory(){
-        return "adminCifor/category-list";
+        return "adminlayui/category-list";
     }
 
     /**
@@ -151,7 +151,7 @@ public class CategoryController {
 
     @GetMapping("/v1/category/add")
     public String addBlogConfig(){
-        return "adminCifor/category-add";
+        return "adminlayui/category-add";
     }
 
     /**
