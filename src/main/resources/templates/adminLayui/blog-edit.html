@@ -42,12 +42,12 @@
                             <input type="text" name="blogSubUrl" placeholder="输入自定义路径,如:redis-info,默认为id"
                                    autocomplete="off" class="layui-input" th:value="${blogInfo?.blogSubUrl}"></div>
                         <div class="layui-col-md3 layui-show-xs-block">
-                            <select class="layui-select" name="tagId" xm-select="tagId" xm-select-show-count="1"
-                                    lay-verify="required">
+                            <select class="layui-select" name="tagId" xm-select="tagId" xm-select-show-count="5"
+                                    lay-verify="required" xm-select-height="30px">
                                 <option value="">请选择文章标签</option>
                             </select></div>
                         <div class="layui-col-md2 layui-show-xs-block">
-                            <select class="layui-select" name="blogCategoryId" xm-select="blogCategoryId"
+                            <select id="blogCategoryId" class="layui-select" name="blogCategoryId" xm-select="blogCategoryId"
                                     xm-select-radio=""
                                     lay-verify="required">
                                 <option value="">请选择文章分类</option>
@@ -57,12 +57,12 @@
                                    lay-text="发布|草稿" th:checked="${blogInfo?.blogStatus eq 1}">
                         </div>
                         <div class="layui-col-md10 layui-show-xs-block">
-                            <input type="text" name="blogPreface" th:value="${blogInfo?.blogPreface}"
+                            <input id="articleIntroduction" type="text" name="blogPreface" th:value="${blogInfo?.blogPreface}"
                                    lay-verify="required|blogPreface" placeholder="请输入文章前言"
                                    autocomplete="off" class="layui-input"></div>
                         <div class="layui-col-md1 layui-show-xs-block">
                             <input type="checkbox" name="enableComment" th:checked="${blogInfo?.enableComment eq 0}"
-                                   lay-skin="switch" value="1" lay-text="允许评论|不允许评论">
+                                   lay-skin="switch" value="0" lay-text="允许评论|不允许评论">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
                             <button class="layui-btn" lay-submit="" lay-filter="submit">
@@ -107,6 +107,32 @@
         });
 
         var formSelects = layui.formSelects;
+        formSelects.btns('tagId', ['select', 'remove', 'reverse', {
+            icon: 'layui-icon layui-icon-refresh',   //自定义图标, 可以使用layui内置图标
+            name: '刷新数据',
+            click: function(id){
+                formSelects.data('tagId', 'server', {
+                    url: '/admin/v1/tags/list',
+                    success: function (id, url, searchVal, result) {
+                        formSelects.value('tagId', [[${blogTags}]], true);
+                    }
+                });
+            }
+        }]);
+        formSelects.btns('blogCategoryId', [{
+            icon: 'layui-icon layui-icon-refresh',   //自定义图标, 可以使用layui内置图标
+            name: '刷新数据',
+            click: function(id){
+                var blogCategoryIds = new Array();
+                blogCategoryIds[0] = [[${blogInfo?.blogCategoryId}]];
+                formSelects.data('blogCategoryId', 'server', {
+                    url: '/admin/v1/category/list',
+                    success: function (id, url, searchVal, result) {
+                        formSelects.value('blogCategoryId', blogCategoryIds, true);
+                    }
+                });
+            }
+        }]);
         //动态加载标签配置
         formSelects.config("tagId", {
             type: 'get',
@@ -130,14 +156,14 @@
                 dataName: 'data'        //data key
             }
         });
-        var blogCategoryIds = new Array();
-        blogCategoryIds[0] = [[${blogInfo?.blogCategoryId}]];
         formSelects.data('tagId', 'server', {
             url: '/admin/v1/tags/list',
             success: function (id, url, searchVal, result) {
                 formSelects.value('tagId', [[${blogTags}]], true);
             }
         });
+        var blogCategoryIds = new Array();
+        blogCategoryIds[0] = [[${blogInfo?.blogCategoryId}]];
         formSelects.data('blogCategoryId', 'server', {
             url: '/admin/v1/category/list',
             success: function (id, url, searchVal, result) {
@@ -153,7 +179,6 @@
                 }
             }
         });
-
 
         form.on("submit(submit)", function (data) {
             var datas = data.field;
