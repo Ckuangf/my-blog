@@ -87,7 +87,20 @@
             $ = layui.jquery,
             table = layui.table;
         var formSelects = layui.formSelects;
-
+        formSelects.btns('blogCategoryId', [{
+            icon: 'layui-icon layui-icon-refresh',   //自定义图标, 可以使用layui内置图标
+            name: '刷新数据',
+            click: function(id){
+                var blogCategoryIds = new Array();
+                blogCategoryIds[0] = [[${blogInfo?.blogCategoryId}]];
+                formSelects.data('blogCategoryId', 'server', {
+                    url: '/admin/v1/category/list',
+                    success: function (id, url, searchVal, result) {
+                        formSelects.value('blogCategoryId', blogCategoryIds, true);
+                    }
+                });
+            }
+        }]);
         formSelects.config("blogCategoryId", {
             type: 'get',
             keyName: 'categoryName',
@@ -191,7 +204,7 @@
 
             switch (layEvent) {
                 case 'del':
-                    layer.confirm('确定删除此文章？', {icon: 3, title: '提示信息'}, function (index) {
+                    top.layer.confirm('确定删除此文章？', {icon: 3, title: '提示信息'}, function (index) {
                         $.post("/admin/v1/blog/delete",
                             {
                                 "blogId": data.blogId
@@ -203,7 +216,7 @@
                     });
                     break;
                 case 'restore':
-                    layer.confirm('确定还原此文章？', {icon: 3, title: '提示信息'}, function (index) {
+                    top.layer.confirm('确定还原此文章？', {icon: 3, title: '提示信息'}, function (index) {
                         $.post("/admin/v1/blog/restore",
                             {
                                 "blogId": data.blogId
@@ -215,7 +228,7 @@
                     });
                     break;
                 case 'clear':
-                    layer.confirm('确定从数据库中清除？', {icon: 3, title: '提示信息'}, function (index) {
+                    top.layer.confirm('确定从数据库中清除？', {icon: 3, title: '提示信息'}, function (index) {
                         $.post("/admin/v1/blog/clear",
                             {
                                 "blogId": data.blogId

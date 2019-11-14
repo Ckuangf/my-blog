@@ -157,7 +157,7 @@
                 layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
 
             if (layEvent === 'clear') {
-                layer.confirm('确定清除？关联的文章标签信息将被清空', {icon: 3, title: '提示信息'}, function (index) {
+                top.layer.confirm('确定清除？关联的文章标签信息将被清空', {icon: 3, title: '提示信息'}, function (index) {
                     $.post("/admin/v1/tags/clear",
                         {
                             "tagId": data.tagId
