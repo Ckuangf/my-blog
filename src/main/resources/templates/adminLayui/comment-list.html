@@ -96,6 +96,15 @@
             url: '/admin/v1/blog/select'
         });
 
+        formSelects.btns('blogId', [{
+            icon: 'layui-icon layui-icon-refresh',   //自定义图标, 可以使用layui内置图标
+            name: '刷新数据',
+            click: function(id){
+                formSelects.data('blogId', 'server', {
+                    url: '/admin/v1/blog/select'
+                });
+            }
+        }]);
         var tableIns = table.render({
             elem: '#blogCommentList',
             id: "blogCommentTable",

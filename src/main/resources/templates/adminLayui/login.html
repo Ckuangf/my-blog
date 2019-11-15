@@ -37,7 +37,9 @@
     </div>
 </div>
 <script>
-
+    if(window !=top){
+        top.location.href=location.href;
+    }
     function enterSubmit(obj) {
         //当enter 键按下后，需要执行的事件
         var button = document.getElementById('login');

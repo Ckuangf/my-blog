@@ -141,12 +141,12 @@
         table.on('toolbar(blogTagList)', function (obj) {
             if (obj.event === 'addTag') {
                 //默认prompt
-                layer.prompt({title: '添加标签信息', formType: 0, maxlength: 50}, function (value, index) {
+                top.layer.prompt({title: '添加标签信息', formType: 0, maxlength: 50}, function (value, index) {
                     $.post("/admin/v1/tags/add", {"tagName": value}, function (s) {
-                        layer.msg(s.message);
+                        top.layer.msg(s.message);
                         tableIns.reload();
                     });
-                    layer.close(index);
+                    top.layer.close(index);
                 });
             }
         });
@@ -162,8 +162,8 @@
                         {
                             "tagId": data.tagId
                         }, function (s) {
-                            layer.close(index);
-                            layer.msg(s.message);
+                            top.layer.close(index);
+                            top.layer.msg(s.message);
                             tableIns.reload();
                         });
                 });
