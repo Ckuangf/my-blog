@@ -34,35 +34,35 @@
                 <div class="layui-card-header">数据统计</div>
                 <div class="layui-card-body ">
                     <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
-                        <li class="layui-col-md2 layui-col-xs6">
+                        <li onclick="toArticle()" class="layui-col-md2 layui-col-xs6">
                             <a href="javascript:;" class="x-admin-backlog-body">
                                 <h3>文章数</h3>
                                 <p>
                                     <cite th:text="${session.blogCount}"></cite></p>
                             </a>
                         </li>
-                        <li class="layui-col-md2 layui-col-xs6">
+                        <li onclick="toCategory()" class="layui-col-md2 layui-col-xs6">
                             <a href="javascript:;" class="x-admin-backlog-body">
                                 <h3>分类数</h3>
                                 <p>
                                     <cite th:text="${session.categoryCount}"></cite></p>
                             </a>
                         </li>
-                        <li class="layui-col-md2 layui-col-xs6">
+                        <li onclick="toTags()" class="layui-col-md2 layui-col-xs6">
                             <a href="javascript:;" class="x-admin-backlog-body">
                                 <h3>标签数</h3>
                                 <p>
                                     <cite th:text="${session.tagCount}"></cite></p>
                             </a>
                         </li>
-                        <li class="layui-col-md2 layui-col-xs6">
+                        <li onclick="toComments()" class="layui-col-md2 layui-col-xs6">
                             <a href="javascript:;" class="x-admin-backlog-body">
                                 <h3>评论数</h3>
                                 <p>
                                     <cite th:text="${session.commentCount}"></cite></p>
                             </a>
                         </li>
-                        <li class="layui-col-md2 layui-col-xs6">
+                        <li onclick="toLinks()" class="layui-col-md2 layui-col-xs6">
                             <a href="javascript:;" class="x-admin-backlog-body">
                                 <h3>友情链接</h3>
                                 <p>
@@ -93,6 +93,21 @@
 </div>
 <script>
     setInterval("document.getElementById('time').innerHTML = new Date().toLocaleString();", 0);
+    toArticle = function () {
+        $('#articleList', parent.document).click();
+    }
+    toCategory = function () {
+        $('#categoryList', parent.document).click();
+    }
+    toTags = function () {
+        $('#tagsList', parent.document).click();
+    }
+    toComments = function () {
+        $('#commentList', parent.document).click();
+    }
+    toLinks = function () {
+        $('#linkList', parent.document).click();
+    }
 </script>
 </body>
 </html>

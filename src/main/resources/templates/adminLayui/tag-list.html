@@ -60,6 +60,7 @@
 </script>
 <script type="text/html" id="hint">
     <button class="layui-btn layui-btn-sm" lay-event="addTag">添加标签信息</button>
+    <button class="layui-btn layui-btn-sm" lay-event="batchClearTag">批量清除</button>
     <sapn class="x-red">删除标签时,会将跟它绑定的文章标签属性全部清空,然后重置为默认标签!</sapn>
 </script>
 <script type="text/javascript" th:inline="none">
@@ -139,15 +140,36 @@
 
         //头工具栏事件
         table.on('toolbar(blogTagList)', function (obj) {
-            if (obj.event === 'addTag') {
-                //默认prompt
-                top.layer.prompt({title: '添加标签信息', formType: 0, maxlength: 50}, function (value, index) {
-                    $.post("/admin/v1/tags/add", {"tagName": value}, function (s) {
-                        top.layer.msg(s.message);
-                        tableIns.reload();
+            //批量删除除
+            var checkStatus = table.checkStatus(obj.config.id);
+            var batchData = checkStatus.data;
+            var batchValue = "";
+            for (var i = 0; i < batchData.length; i++) {
+                batchValue = batchValue + batchData[i].tagId + ",";
+            }
+            switch (obj.event) {
+                case 'addTag':
+                    //默认prompt
+                    top.layer.prompt({title: '添加标签信息', formType: 0, maxlength: 50}, function (value, index) {
+                        $.post("/admin/v1/tags/add", {"tagName": value}, function (s) {
+                            top.layer.msg(s.message);
+                            tableIns.reload();
+                        });
+                        top.layer.close(index);
                     });
-                    top.layer.close(index);
-                });
+                    break;
+                case 'batchClearTag':
+                    //默认prompt
+                    top.layer.confirm('确认清除多个标签？关联的文章标签信息将被清空', {icon: 3, title: '提示信息'}, function (index) {
+                        $.post("/admin/v1/tags/clearBatch", {"tagIds": batchValue.trim()}, function (s) {
+                            top.layer.close(index);
+                            top.layer.msg(s.message);
+                            tableIns.reload();
+                        });
+                    });
+                    break;
+                default: break;
+
             }
         });
 
@@ -171,11 +193,11 @@
         });
     });
 
-    function reload(){
-        $.get("/admin/v1/reload",function(data){
-            if (data){
+    function reload() {
+        $.get("/admin/v1/reload", function (data) {
+            if (data) {
                 location.reload();
-            }else{
+            } else {
                 parent.location.reload();
             }
         });

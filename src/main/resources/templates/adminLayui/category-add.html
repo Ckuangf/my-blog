@@ -59,16 +59,18 @@
                 data: data.field,
                 success: function (s) {
                     if (s.resultCode === 200) {
-                        layer.msg(s.message, function () {
+                        layer.msg(s.message, {
+                            time:200
+                        },function () {
                                 parent.location.reload();
-                            });
+                        });
                     } else {
                         layer.msg(s.message, function () {
                         });
                     }
                 },
                 error: function () {
-                    layer.msg("接口异常!", function () {
+                    layer.msg("接口异常!", function (index) {
                     });
                 }
             });

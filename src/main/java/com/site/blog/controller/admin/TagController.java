@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -134,6 +135,11 @@ public class TagController {
     @ResponseBody
     @PostMapping("/v1/tags/clear")
     public Result clearTag(Integer tagId) throws RuntimeException {
+        clearTagById(tagId);
+        return ResultGenerator.getResultByHttp(HttpStatusConstants.OK);
+    }
+
+    private void clearTagById(Integer tagId) {
         QueryWrapper<BlogTagRelation> blogTagRelationQuery = new QueryWrapper<>();
         blogTagRelationQuery.lambda().eq(BlogTagRelation::getTagId, tagId);
         List<BlogTagRelation> blogTagRelationList = blogTagRelationService.list(blogTagRelationQuery);
@@ -150,7 +156,7 @@ public class TagController {
                         return tagName;
                     }
                 }).collect(Collectors.toList());
-                blogInfo.setBlogTags(StringUtils.strip(stringList.toString(),"[]"));
+                blogInfo.setBlogTags(StringUtils.strip(stringList.toString(), "[]"));
                 return blogInfo;
             }).collect(Collectors.toList());
             blogInfoService.updateBatchById(collect);
@@ -188,6 +194,16 @@ public class TagController {
                 .in(BlogTagRelation::getBlogId, blogIds));
         blogTagRelationService.saveBatch(tagRelations);*/
         blogTagService.removeById(tagId);
+    }
+
+    @ResponseBody
+    @PostMapping("/v1/tags/clearBatch")
+    public Result batchClearTag(String tagIds) throws RuntimeException {
+        Arrays.stream(tagIds.split(",")).forEach(tagId -> {
+            if (StringUtils.isNotEmpty(tagId)) {
+                clearTagById(Integer.valueOf(tagId));
+            }
+        });
         return ResultGenerator.getResultByHttp(HttpStatusConstants.OK);
     }
 }

@@ -88,12 +88,12 @@
                                     <cite>文章编辑</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('文章列表','/admin/v1/blog')">
+                                <a id="articleList" onclick="xadmin.add_tab('文章列表','/admin/v1/blog')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>文章列表</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('评论列表','/admin/v1/comment')">
+                                <a id="commentList" onclick="xadmin.add_tab('评论列表','/admin/v1/comment')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>评论列表</cite></a>
                             </li>
@@ -106,7 +106,7 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('标签列表','/admin/v1/tags')">
+                                <a id="tagsList" onclick="xadmin.add_tab('标签列表','/admin/v1/tags')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>标签列表</cite></a>
                             </li>
@@ -119,7 +119,7 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('分类列表','/admin/v1/category')">
+                                <a id="categoryList" onclick="xadmin.add_tab('分类列表','/admin/v1/category')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>分类列表</cite></a>
                             </li>
@@ -137,7 +137,7 @@
                                     <cite>系统信息</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('链接列表','/admin/v1/linkType')">
+                                <a id="linkList" onclick="xadmin.add_tab('链接列表','/admin/v1/linkType')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>链接列表</cite></a>
                             </li>
@@ -162,7 +162,7 @@
                 </div>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
-                        <iframe th:src='@{/admin/v1/welcome}' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+                        <iframe id="adminFrame" th:src='@{/admin/v1/welcome}' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
                     </div>
                 </div>
                 <div id="tab_show"></div>

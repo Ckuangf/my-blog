@@ -60,6 +60,7 @@
 </script>
 <script type="text/html" id="hint">
     <button class="layui-btn layui-btn-sm" lay-event="addCategory">添加分类信息</button>
+    <button class="layui-btn layui-btn-sm" lay-event="batchClearCategory">批量清除</button>
     <sapn class="x-red">删除分类时,会将跟它绑定的文章全部重置为默认分类!</sapn>
 </script>
 <script type="text/javascript" th:inline="none">
@@ -131,11 +132,33 @@
         });
 
         //头工具栏事件
-        table.on('toolbar(blogCategoryList)', function(obj){
-            switch(obj.event){
+        table.on('toolbar(blogCategoryList)', function (obj) {
+            //批量删除除
+            var checkStatus = table.checkStatus(obj.config.id);
+            var batchData = checkStatus.data;
+            var batchValue = "";
+            for (var i = 0; i < batchData.length; i++) {
+                batchValue = batchValue + batchData[i].categoryId + ",";
+            }
+            switch (obj.event) {
                 case 'addCategory':
                     xadmin.open('信息添加','/admin/v1/category/add',450,250);
                     break;
+                case 'batchClearCategory':
+                    //默认prompt
+                    top.layer.confirm('确定清除多个分类信息？关联的文章分类信息将被清空',{icon:3, title:'提示信息'},function(index){
+                        $.post("/admin/v1/category/clearBatch",
+                            {
+                                "ids": batchValue
+                            }, function (s) {
+                                layer.msg(s.message);
+                            });
+                        top.layer.close(index);
+                        tableIns.reload();
+                    });
+                    break;
+                default: break;
+
             }
         });
 
@@ -152,7 +175,7 @@
                         }, function (s) {
                             layer.msg(s.message);
                         });
-                    layer.close(index);
+                    top.layer.close(index);
                     tableIns.reload();
                 });
             }
