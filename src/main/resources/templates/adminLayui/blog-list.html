@@ -278,6 +278,7 @@
                                 "blogId": data.blogId
                             }, function (s) {
                                 layer.msg(s.message);
+                                tableIns.reload();
                             });
                         top.layer.close(index);
                         tableIns.reload();

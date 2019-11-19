@@ -101,6 +101,7 @@ public class CategoryController {
     @ResponseBody
     @PostMapping("/v1/category/update")
     public Result updateCategory(BlogCategory blogCategory) {
+        //todo 更新逻辑待修改
         BlogCategory sqlCategory = blogCategoryService.getById(blogCategory.getCategoryId());
         boolean flag = sqlCategory.getCategoryName().equals(blogCategory.getCategoryName());
         if (flag) {

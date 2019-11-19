@@ -1,6 +1,8 @@
 package com.site.blog.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.site.blog.constants.BlogStatusConstants;
 import com.site.blog.constants.HttpStatusConstants;
@@ -20,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Array;
@@ -77,7 +80,7 @@ public class TagController {
      */
     @ResponseBody
     @GetMapping("/v1/tags/paging")
-    public AjaxResultPage<BlogTag> getCategoryList(AjaxPutPage<BlogTag> ajaxPutPage, BlogTag condition) {
+    public AjaxResultPage<BlogTag> getTagsList(AjaxPutPage<BlogTag> ajaxPutPage, BlogTag condition) {
         QueryWrapper<BlogTag> queryWrapper = new QueryWrapper<>(condition);
         queryWrapper.lambda()
                 .ne(BlogTag::getTagId, 1);
@@ -88,6 +91,32 @@ public class TagController {
         result.setCount(page.getTotal());
         return result;
     }
+
+    /**
+     * 修改标签
+     *
+     * @return com.site.blog.dto.AjaxResultPage<com.site.blog.entity.BlogTag>
+     * @date 2019/9/1 11:20
+     */
+    @ResponseBody
+    @PostMapping("/v1/tags/update")
+    public Result updateTagInfo(BlogTag blogTag) {
+        //todo 添加参数校验  spring 的validate校验抛出 notBlank的异常 待确认
+        BlogTag byId = blogTagService.getById(blogTag.getTagId());
+        if (null == byId) {
+            return ResultGenerator.genFailResult("未找到待修改的标签");
+        }
+        UpdateWrapper<BlogTag> updateWrapper = new UpdateWrapper<>();
+        byId.setTagName(blogTag.getTagName());
+        updateWrapper.eq("tag_id",blogTag.getTagId());
+        boolean update = blogTagService.update(byId, updateWrapper);
+        if(update){
+            return ResultGenerator.getResultByHttp(HttpStatusConstants.OK);
+        }else{
+            return ResultGenerator.genFailResult("更新标签: "+"blogTag.getTagId()"+"失败");
+        }
+    }
+
 
     /**
      * 修改标签状态

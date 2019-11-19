@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * <p>
  * 标签表
@@ -27,6 +29,7 @@ private static final long serialVersionUID=1L;
     /**
      * 标签表主键id
      */
+    @NotBlank(message = "标签id不能为空")
     @TableId(value = "tag_id", type = IdType.AUTO)
     private Integer tagId;
 
