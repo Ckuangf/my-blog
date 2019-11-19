@@ -74,11 +74,11 @@
 <script type="text/html" id="blogListBar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     {{#  if(d.isDeleted == 1){ }}
-    <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="restore">还原</a>
+    <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="restore">启用</a>
     {{#  } else { }}
-    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">禁用</a>
     {{#  } }}
-    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="clear">清除</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="clear">删除</a>
 </script>
 <script type="text/javascript" th:inline="javascript">
     layui.use(['form', 'layer', 'table'], function () {
@@ -229,7 +229,7 @@
 
                 case 'batchClearTag':
                     //默认prompt
-                    top.layer.confirm('确认清除多个标签？关联的文章标签信息将被清空', {icon: 3, title: '提示信息'}, function (index) {
+                    top.layer.confirm('确认删除多个标签？关联的文章标签信息将被清空', {icon: 3, title: '提示信息'}, function (index) {
                         $.post("/admin/v1/tags/clearBatch", {"tagIds": batchValue.trim()}, function (s) {
                             top.layer.close(index);
                             top.layer.msg(s.message);
@@ -248,7 +248,7 @@
 
             switch (layEvent) {
                 case 'del':
-                    top.layer.confirm('确定删除此文章？', {icon: 3, title: '提示信息'}, function (index) {
+                    top.layer.confirm('确定禁用此文章？', {icon: 3, title: '提示信息'}, function (index) {
                         $.post("/admin/v1/blog/delete",
                             {
                                 "blogId": data.blogId
@@ -272,7 +272,7 @@
                     });
                     break;
                 case 'clear':
-                    top.layer.confirm('确定从数据库中清除？', {icon: 3, title: '提示信息'}, function (index) {
+                    top.layer.confirm('确定从数据库中删除？', {icon: 3, title: '提示信息'}, function (index) {
                         $.post("/admin/v1/blog/clear",
                             {
                                 "blogId": data.blogId

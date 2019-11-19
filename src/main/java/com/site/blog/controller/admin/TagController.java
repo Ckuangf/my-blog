@@ -47,11 +47,11 @@ public class TagController {
 
     @GetMapping("/v1/tags")
     public String gotoTag() {
-        return "adminlayui/tag-list";
+        return "adminLayui/tag-list";
     }
 
     /**
-     * @Description: 返回未删除状态下的所有标签
+     * @Description: 返回启用状态下的所有标签
      * @Param: []
      * @date: 2019/8/26 10:13
      */

@@ -9,6 +9,7 @@
         <meta http-equiv="Cache-Control" content="no-siteapp" />
         <link rel="stylesheet" th:href="@{/X-admin/css/font.css}">
         <link rel="stylesheet" th:href="@{/X-admin/css/xadmin.css}">
+        <script type="text/javascript" th:src="@{/X-admin/js/jquery.min.js}"></script>
         <script type="text/javascript" th:src="@{/X-admin/lib/layui/layui.js}" charset="utf-8"></script>
         <script type="text/javascript" th:src="@{/X-admin/js/xadmin.js}" charset="utf-8"></script>
         <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
@@ -16,10 +17,6 @@
           <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
           <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-        <script>
-            // 是否开启刷新记忆tab功能
-            // var is_remember = false;
-        </script>
     </head>
     <body class="index">
         <!-- 顶部开始 -->
@@ -45,10 +42,10 @@
                             <a onclick="xadmin.open('弹出指定宽高','http://www.baidu.com',500,300)">
                                 <i class="iconfont">&#xe6a8;</i>弹出指定宽高</a></dd>
                         <dd>
-                            <a onclick="xadmin.add_tab('在tab打开','member-list.html')">
+                            <a onclick="loadTabs('在tab打开','member-list.html')">
                                 <i class="iconfont">&#xe6b8;</i>在tab打开</a></dd>
                         <dd>
-                            <a onclick="xadmin.add_tab('在tab打开刷新','member-del.html',true)">
+                            <a onclick="loadTabs('在tab打开刷新','member-del.html',true)">
                                 <i class="iconfont">&#xe6b8;</i>在tab打开刷新</a></dd>
                     </dl>
                 </li>-->
@@ -83,17 +80,17 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('文章编辑','/admin/v1/blog/edit')">
+                                <a onclick="loadTabs('文章编辑','/admin/v1/blog/edit',false)">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>文章编辑</cite></a>
                             </li>
                             <li>
-                                <a id="articleList" onclick="xadmin.add_tab('文章列表','/admin/v1/blog')">
+                                <a id="articleList" onclick="loadTabs('文章列表','/admin/v1/blog',true)">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>文章列表</cite></a>
                             </li>
                             <li>
-                                <a id="commentList" onclick="xadmin.add_tab('评论列表','/admin/v1/comment')">
+                                <a id="commentList" onclick="loadTabs('评论列表','/admin/v1/comment',true)">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>评论列表</cite></a>
                             </li>
@@ -106,7 +103,7 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a id="tagsList" onclick="xadmin.add_tab('标签列表','/admin/v1/tags')">
+                                <a id="tagsList" onclick="loadTabs('标签列表','/admin/v1/tags',true)">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>标签列表</cite></a>
                             </li>
@@ -119,7 +116,7 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a id="categoryList" onclick="xadmin.add_tab('分类列表','/admin/v1/category')">
+                                <a id="categoryList" onclick="loadTabs('分类列表', '/admin/v1/category',true);">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>分类列表</cite></a>
                             </li>
@@ -132,12 +129,12 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('系统信息','/admin/v1/blogConfig')">
+                                <a onclick="loadTabs('系统信息','/admin/v1/blogConfig')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>系统信息</cite></a>
                             </li>
                             <li>
-                                <a id="linkList" onclick="xadmin.add_tab('链接列表','/admin/v1/linkType')">
+                                <a id="linkList" onclick="loadTabs('链接列表','/admin/v1/linkType',true)">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>链接列表</cite></a>
                             </li>
@@ -172,6 +169,21 @@
         <style id="theme_style"></style>
         <!-- 右侧主体结束 -->
         <!-- 中部结束 -->
+        <script>
+            // 是否开启刷新记忆tab功能
+            // var is_remember = false;
+            function loadTabs(name,url,isRefresh) {
+                xadmin.add_tab(name, url,isRefresh);
+            }
+            $(document).on('click','i .layui-this',function(){
+                layer.msg('hello');
+                console.log($(this).html())
+            });
+        </script>
     </body>
 
 </html>
+<script>
+
+    // var element = document.querySelector("li[class=layui-this]");
+</script>

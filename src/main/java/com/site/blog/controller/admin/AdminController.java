@@ -64,7 +64,7 @@ public class AdminController {
      */
     @GetMapping("/v1/welcome")
     public String welcome() {
-        return "adminlayui/welcome";
+        return "adminLayui/welcome";
     }
 
     /**
@@ -87,7 +87,7 @@ public class AdminController {
      */
     @GetMapping("/v1/userInfo")
     public String gotoUserInfo() {
-        return "adminlayui/userInfo-edit";
+        return "adminLayui/userInfo-edit";
     }
 
     /**
@@ -167,7 +167,7 @@ public class AdminController {
         ));
         session.setAttribute("sysList", blogConfigService.list());
         request.setAttribute("configurations", blogConfigService.getAllConfigs());
-        return "adminlayui/index";
+        return "adminLayui/index";
     }
 
     /**

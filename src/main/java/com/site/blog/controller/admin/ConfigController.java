@@ -36,7 +36,7 @@ public class ConfigController {
      */
     @GetMapping("/v1/blogConfig")
     public String gotoBlogConfig(){
-        return "adminlayui/sys-edit";
+        return "adminLayui/sys-edit";
     }
 
     /**
@@ -84,7 +84,7 @@ public class ConfigController {
 
     @GetMapping("/v1/blogConfig/add")
     public String addBlogConfig(){
-        return "adminlayui/sys-add";
+        return "adminLayui/sys-add";
     }
 
     /**

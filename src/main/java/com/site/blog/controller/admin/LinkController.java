@@ -36,7 +36,7 @@ public class LinkController {
 
     @GetMapping("/v1/linkType")
     public String gotoLink(){
-        return "adminlayui/link-list";
+        return "adminLayui/link-list";
     }
 
     @ResponseBody
@@ -92,7 +92,7 @@ public class LinkController {
             BlogLink blogLink = blogLinkService.getById(linkId);
             model.addAttribute("blogLink",blogLink);
         }
-        return "adminlayui/link-edit";
+        return "adminLayui/link-edit";
     }
 
     @ResponseBody

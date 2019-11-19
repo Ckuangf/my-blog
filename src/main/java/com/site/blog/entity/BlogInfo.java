@@ -93,7 +93,7 @@ private static final long serialVersionUID=1L;
     private Integer enableComment;
 
     /**
-     * 是否删除 0=否 1=是
+     * 是否禁用 0=否 1=是
      */
     @TableField("is_deleted")
     private Integer isDeleted;

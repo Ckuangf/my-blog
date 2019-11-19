@@ -51,12 +51,12 @@
     </div>
 </div>
 <script type="text/html" id="isDeletedTool">
-    {{#  if(d.isDeleted == 1){ }}
+    {{#  if(d.isDeleted == 0){ }}
     <input type="checkbox" name="isDeleted" lay-skin="switch" value="{{d.commentId}}"
-           lay-text="已删除|未删除" lay-filter="isDeleted" checked>
+           lay-text="启用|禁用" lay-filter="isDeleted" checked>
     {{#  } else { }}
     <input type="checkbox" name="isDeleted" lay-skin="switch" value="{{d.commentId}}"
-           lay-text="已删除|未删除" lay-filter="isDeleted">
+           lay-text="启用|禁用" lay-filter="isDeleted">
     {{#  } }}
 </script>
 <script type="text/html" id="isStatusTool">
@@ -69,7 +69,7 @@
     {{#  } }}
 </script>
 <script type="text/html" id="blogListBar">
-    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="clear">清除</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="clear">删除</a>
 </script>
 <script type="text/javascript" th:inline="none">
     layui.use(['form', 'layer', 'table'], function () {
@@ -158,7 +158,7 @@
         });
 
         form.on('switch(isDeleted)', function (data) {
-            var isDeleted = data.elem.checked ? 1 : 0; //1为已删除,0为未删除
+            var isDeleted = data.elem.checked ? 0:1; //1为禁用,0为启用
             var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
             $.post("/admin/v1/comment/isDel",
                 {
@@ -196,7 +196,7 @@
 
             switch (layEvent) {
                 case 'clear':
-                    layer.confirm('确定清除？',{icon:3, title:'提示信息'},function(index){
+                    layer.confirm('确定删除？',{icon:3, title:'提示信息'},function(index){
                         $.post("/admin/v1/link/clear",
                             {
                                 "linkId": data.linkId

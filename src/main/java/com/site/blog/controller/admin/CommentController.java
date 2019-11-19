@@ -33,7 +33,7 @@ public class CommentController {
 
     @GetMapping("/v1/comment")
     public String gotoComment(){
-        return "adminlayui/comment-list";
+        return "adminLayui/comment-list";
     }
 
     @ResponseBody

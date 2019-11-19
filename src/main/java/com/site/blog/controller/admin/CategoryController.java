@@ -65,7 +65,7 @@ public class CategoryController {
 
     @GetMapping("/v1/category")
     public String gotoBlogCategory() {
-        return "adminlayui/category-list";
+        return "adminLayui/category-list";
     }
 
     /**
@@ -179,7 +179,7 @@ public class CategoryController {
 
     @GetMapping("/v1/category/add")
     public String addBlogConfig() {
-        return "adminlayui/category-add";
+        return "adminLayui/category-add";
     }
 
     /**

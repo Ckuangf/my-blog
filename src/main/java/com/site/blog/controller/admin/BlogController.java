@@ -78,7 +78,7 @@ public class BlogController {
             model.addAttribute("blogTags", tags);
             model.addAttribute("blogInfo", blogInfo);
         }
-        return "adminlayui/blog-edit";
+        return "adminLayui/blog-edit";
     }
 
     /**
@@ -89,7 +89,7 @@ public class BlogController {
      */
     @GetMapping("/v1/blog")
     public String gotoBlogList() {
-        return "adminlayui/blog-list";
+        return "adminLayui/blog-list";
     }
 
     /**
@@ -205,7 +205,7 @@ public class BlogController {
     }
 
     /**
-     * 修改文章的删除状态为已删除
+     * 修改文章的删除状态为禁用
      *
      * @param blogId
      * @return com.site.blog.dto.Result
