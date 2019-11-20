@@ -107,10 +107,10 @@ public class BlogController {
                                                             MultipartFile file) throws URISyntaxException {
         String suffixName = UploadFileUtils.getSuffixName(file);
         //生成文件名称通用方法
-        String newFileName = UploadFileUtils.getNewFileName(suffixName);
+        String newFileName = UploadFileUtils.getNewFileName(suffixName,UploadFileUtils.getPrefixName(file));
         File fileDirectory = new File(UploadConstants.FILE_UPLOAD_DIC);
         //创建文件
-        File destFile = new File(UploadConstants.FILE_UPLOAD_DIC + newFileName);
+        File destFile = new File(new File(UploadConstants.FILE_UPLOAD_DIC).getAbsolutePath() + "/"  + newFileName);
         Map<String, Object> result = new HashMap<>();
         try {
             if (!fileDirectory.exists()) {
@@ -120,14 +120,16 @@ public class BlogController {
             }
             file.transferTo(destFile);
             String fileUrl = MyBlogUtils.getHost(new URI(request.getRequestURL() + "")) +
-                    UploadConstants.FILE_SQL_DIC + newFileName;
+                    "/"+UploadConstants.FILE_SQL_DIC + newFileName;
             result.put("success", 1);
             result.put("message", "上传成功");
             result.put("url", fileUrl);
         } catch (UnsupportedEncodingException e) {
             result.put("success", 0);
+            result.put("message", "上传失败，不支持的类型");
         } catch (IOException e) {
             result.put("success", 0);
+            result.put("message", "上传失败，文件丢失");
         }
         return result;
     }
