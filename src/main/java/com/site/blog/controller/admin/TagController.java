@@ -100,7 +100,7 @@ public class TagController {
      */
     @ResponseBody
     @PostMapping("/v1/tags/update")
-    public Result updateTagInfo(BlogTag blogTag) {
+    public Result updateTagInfo(@Validated BlogTag blogTag) {
         //todo 添加参数校验  spring 的validate校验抛出 notBlank的异常 待确认
         BlogTag byId = blogTagService.getById(blogTag.getTagId());
         if (null == byId) {

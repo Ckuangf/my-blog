@@ -61,7 +61,7 @@
                                    lay-verify="required|blogPreface" placeholder="请输入文章前言"
                                    autocomplete="off" class="layui-input"></div>
                         <div class="layui-col-md1 layui-show-xs-block">
-                            <input type="checkbox" name="enableComment" th:checked="${blogInfo?.enableComment eq 0}"
+                            <input type="checkbox" name="enableComment" th:checked="${blogInfo?.enableComment eq 0 || blogInfo?.enableComment eq null}"
                                    lay-skin="switch" value="0" lay-text="允许评论|不允许评论">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
@@ -192,7 +192,7 @@
                     top.layer.close(index);
                     top.layer.alert(s.message);
                     location.reload();
-                }, 1500);
+                }, 1000);
             });
             return false;
         });
