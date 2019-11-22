@@ -2,6 +2,7 @@ package com.site.blog.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.additional.update.impl.UpdateChainWrapper;
 import com.site.blog.constants.BlogStatusConstants;
 import com.site.blog.constants.HttpStatusConstants;
 import com.site.blog.constants.UploadConstants;
@@ -282,6 +283,33 @@ public class BlogController {
     @GetMapping("v1/blog/select")
     public List<BlogInfo> getBlogInfoSelect() {
         return blogInfoService.list();
+    }
+
+    @ResponseBody
+    @PostMapping("v1/blog/top")
+    public Result topBlog( boolean topFlag, Long blogId){
+        if(topFlag){
+            QueryWrapper<BlogInfo> blogInfoQueryWrapper = new QueryWrapper<>();
+            blogInfoQueryWrapper.orderByDesc("topNum");
+            BlogInfo lastTopBlog = blogInfoService.getOne(blogInfoQueryWrapper);
+            BlogInfo byId = blogInfoService.getById(blogId);
+            byId.setTopNum(lastTopBlog.getTopNum() + 1);
+            boolean b = blogInfoService.updateById(byId);
+            if(b){
+                return ResultGenerator.getResultByHttp(HttpStatusConstants.OK);
+            } else {
+                return ResultGenerator.getFailedResult();
+            }
+        } else{
+            BlogInfo byId = blogInfoService.getById(blogId);
+            byId.setTopNum(0);
+            boolean b = blogInfoService.updateById(byId);
+            if(b){
+                return ResultGenerator.getResultByHttp(HttpStatusConstants.OK);
+            } else {
+                return ResultGenerator.getFailedResult();
+            }
+        }
     }
 
 }

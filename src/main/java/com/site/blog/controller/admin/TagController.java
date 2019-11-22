@@ -104,7 +104,7 @@ public class TagController {
         //todo 添加参数校验  spring 的validate校验抛出 notBlank的异常 待确认
         BlogTag byId = blogTagService.getById(blogTag.getTagId());
         if (null == byId) {
-            return ResultGenerator.genFailResult("未找到待修改的标签");
+            return ResultGenerator.getFailResult("未找到待修改的标签");
         }
         UpdateWrapper<BlogTag> updateWrapper = new UpdateWrapper<>();
         byId.setTagName(blogTag.getTagName());
@@ -113,7 +113,7 @@ public class TagController {
         if(update){
             return ResultGenerator.getResultByHttp(HttpStatusConstants.OK);
         }else{
-            return ResultGenerator.genFailResult("更新标签: "+"blogTag.getTagId()"+"失败");
+            return ResultGenerator.getFailResult("更新标签: "+"blogTag.getTagId()"+"失败");
         }
     }
 

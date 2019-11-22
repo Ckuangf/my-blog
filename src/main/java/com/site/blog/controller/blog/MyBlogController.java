@@ -315,7 +315,7 @@ public class MyBlogController {
                           @Validated BlogComment blogComment) {
         String ref = request.getHeader("Referer");
         if (StringUtils.isEmpty(ref)) {
-            return ResultGenerator.genFailResult("非法请求");
+            return ResultGenerator.getFailResult("非法请求");
         }
         boolean flag = blogCommentService.save(blogComment);
         if (flag){

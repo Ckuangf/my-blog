@@ -50,7 +50,7 @@ public class ApplicationControllerExceptionHandler {
     @ResponseBody
     public Result handlerError(HttpServletRequest req, Exception e) {
         log.error(e.getMessage());
-        return ResultGenerator.genFailResult("出现异常错误,请及时查看后台日志！");
+        return ResultGenerator.getFailResult("出现异常错误,请及时查看后台日志！");
     }
 
 

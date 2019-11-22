@@ -20,6 +20,7 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 </head>
 
 <body>
@@ -79,6 +80,11 @@
     <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">禁用</a>
     {{#  } }}
     <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="clear">删除</a>
+    {{#  if(d.topNum == 0){ }}
+    <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="top">置顶</a>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="untop">取消置顶</a>
+    {{#  } }}
 </script>
 <script type="text/javascript" th:inline="javascript">
     layui.use(['form', 'layer', 'table'], function () {
@@ -128,22 +134,23 @@
             limits: [10],
             cols: [
                 [{type: 'checkbox', field: 'blogId', fixed: "left"},
-                {field: 'blogTitle', title: '博客标题', align: "center", unresize: "true"},
-                {field: 'blogCategoryName', title: '博客分类', align: 'center', unresize: "true"},
-                {field: 'blogTags', title: '博客标签', align: 'center', unresize: "true"},
-                {field: 'blogViews', title: '阅读量', align: 'center', unresize: "true"},
-                {field: 'updateTime', title: '最后修改时间', align: 'center', unresize: "true"},
+                {field: 'blogTitle', title: '博客标题',width: "15%", align: "center", unresize: "true"},
+                {field: 'blogCategoryName', title: '博客分类',width: "8%", align: 'center', unresize: "true"},
+                {field: 'blogTags', title: '博客标签', align: 'center',width: "15.2%", unresize: "true"},
+                {field: 'blogViews', title: '阅读量',width: "5%", align: 'center', unresize: "true"},
+                {field: 'updateTime', title: '最后修改时间',width: "14%", align: 'center', unresize: "true"},
                 {
-                    field: 'blogStatus', title: '文章状态', align: 'center', unresize: "true", templet: '#blogStatusTool'
+                    field: 'blogStatus', title: '文章状态',width: "9%", align: 'center', unresize: "true", templet: '#blogStatusTool'
                 },
                 {
                     field: 'enableComment',
                     title: '评论',
                     align: 'center',
+                    width: "9%",
                     unresize: "true",
                     templet: '#enableCommentTool'
                 },
-                {title: '操作', align: "center", width: "18%", unresize: "true", toolbar: "#blogListBar"}]
+                {title: '操作', align: "center", width: "20%", unresize: "true", toolbar: "#blogListBar"}]
             ]
         });
 
@@ -287,6 +294,25 @@
                 case 'edit':
                     location.href = "/admin/v1/blog/edit?blogId=" + data.blogId;
                     break;
+                case 'top':
+                    $.post("/admin/v1/blog/top",
+                        {
+                            "blogId": data.blogId,
+                            "topFlag": true
+                        }, function (s) {
+                            top.layer.msg(s.message);
+                            tableIns.reload();
+                        });
+                    break;
+                case 'untop':
+                        $.post("/admin/v1/blog/top",
+                            {
+                                "blogId": data.blogId,
+                                "topFlag": false
+                            }, function (s) {
+                                layer.msg(s.message);
+                            });
+                    break;
                 default:
                     break;
             }
@@ -304,3 +330,6 @@
 </script>
 </body>
 </html>
+<style>
+    body{overflow-y: scroll;} /* 禁止刷新后出现横向滚动条 */
+</style>

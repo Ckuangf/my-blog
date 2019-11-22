@@ -10,21 +10,28 @@ import org.springframework.util.StringUtils;
  */
 public class ResultGenerator {
 
-    public static Result genSuccessResult() {
+    public static Result getFailedResult(){
+        Result result = new Result();
+        result.setResultCode(HttpStatusConstants.FAILED.getStatus());
+        result.setMessage(HttpStatusConstants.FAILED.getContent());
+        return result;
+    }
+
+    public static Result getSuccessResult() {
         Result result = new Result();
         result.setResultCode(HttpStatusConstants.OK.getStatus());
         result.setMessage(HttpStatusConstants.OK.getContent());
         return result;
     }
 
-    public static Result genSuccessResult(String message) {
+    public static Result getSuccessResult(String message) {
         Result result = new Result();
         result.setResultCode(HttpStatusConstants.OK.getStatus());
         result.setMessage(message);
         return result;
     }
 
-    public static Result genSuccessResult(Object data) {
+    public static Result getSuccessResult(Object data) {
         Result result = new Result();
         result.setResultCode(HttpStatusConstants.OK.getStatus());
         result.setMessage(HttpStatusConstants.OK.getContent());
@@ -32,7 +39,7 @@ public class ResultGenerator {
         return result;
     }
 
-    public static Result genFailResult(String message) {
+    public static Result getFailResult(String message) {
         Result result = new Result();
         result.setResultCode(HttpStatusConstants.INTERNAL_SERVER_ERROR.getStatus());
         if (StringUtils.isEmpty(message)) {
@@ -43,7 +50,7 @@ public class ResultGenerator {
         return result;
     }
 
-    public static Result genErrorResult(int code, String message) {
+    public static Result getErrorResult(int code, String message) {
         Result result = new Result();
         result.setResultCode(code);
         result.setMessage(message);
@@ -57,7 +64,7 @@ public class ResultGenerator {
      * @date: 2019/8/24 16:25
      */
     public static Result getResultByHttp(HttpStatusConstants constants,Object data){
-        Result result = ResultGenerator.genErrorResult(constants.getStatus(), constants.getContent());
+        Result result = ResultGenerator.getErrorResult(constants.getStatus(), constants.getContent());
         result.setData(data);
         return result;
     }
@@ -69,7 +76,7 @@ public class ResultGenerator {
      * @date: 2019/8/24 16:25
      */
     public static Result getResultByHttp(HttpStatusConstants constants){
-        Result result = ResultGenerator.genErrorResult(constants.getStatus(), constants.getContent());
+        Result result = ResultGenerator.getErrorResult(constants.getStatus(), constants.getContent());
         return result;
     }
 }

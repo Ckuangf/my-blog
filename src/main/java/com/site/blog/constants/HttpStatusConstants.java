@@ -10,6 +10,7 @@ package com.site.blog.constants;
 public enum  HttpStatusConstants {
 
     OK(200,"成功"),
+    FAILED(200,"失败"),
     BAD_REQUEST(400,"请求参数有误"),
     UNAUTHORIZED(401,"登录失败"),
     INTERNAL_SERVER_ERROR(500,"服务器遇到了一个未曾预料的状况"),

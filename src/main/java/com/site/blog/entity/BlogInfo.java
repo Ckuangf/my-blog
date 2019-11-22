@@ -113,6 +113,9 @@ private static final long serialVersionUID=1L;
     @TableField("update_time")
     private Date updateTime;
 
-    @TableField("istop")
-    private Integer istop;
+    /**
+     * 置顶编号
+     */
+    @TableField("topNum")
+    private Integer topNum;
 }
