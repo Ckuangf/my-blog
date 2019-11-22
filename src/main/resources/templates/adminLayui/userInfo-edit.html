@@ -16,6 +16,7 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script type="text/javascript" th:src="@{/X-admin/js/Base64.js}"></script>
     <style>
         .layui-upload-img {
             width: 92px;
@@ -40,7 +41,9 @@
                 <div class="layui-inline">
                     <button type="button" class="layui-btn" id="previewImg">预览图片</button>
                     <button type="button" class="layui-btn" id="uploadImg">开始上传</button>
-                    <input name="sysAuthorImg" type="hidden" id="authorImgUrl" th:value="${session.authorImg.configValue}">
+                    <button type="button" class="layui-btn" id="changePasswd">密码修改</button>
+                    <input name="sysAuthorImg" type="hidden" id="authorImgUrl"
+                           th:value="${session.authorImg.configValue}">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -57,27 +60,31 @@
                     <input type="text" id="L_nickName" name="nickName" lay-verify="required|nickName"
                            autocomplete="off" class="layui-input" th:value="${session.loginNickName}"></div>
             </div>
-            <div class="layui-form-item">
-                <label for="L_oldPwd" class="layui-form-label">
-                    <span class="x-red">*</span>旧密码</label>
-                <div class="layui-input-inline">
-                    <input type="password" id="L_oldPwd" name="oldPwd" lay-verify="required|oldPwd" autocomplete="off"
-                           class="layui-input"></div>
-            </div>
-            <div class="layui-form-item">
-                <label for="L_newPwd" class="layui-form-label">
-                    <span class="x-red">*</span>新密码</label>
-                <div class="layui-input-inline">
-                    <input type="password" id="L_newPwd" name="newPwd" lay-verify="required|newPwd" autocomplete="off"
-                           class="layui-input"></div>
-                <div class="layui-form-mid layui-word-aux">6到16个字符</div>
-            </div>
-            <div class="layui-form-item">
-                <label for="L_confirmPwd" class="layui-form-label">
-                    <span class="x-red">*</span>确认密码</label>
-                <div class="layui-input-inline">
-                    <input type="password" id="L_confirmPwd" name="confirmPwd" lay-verify="required|confirmPwd"
-                           autocomplete="off" class="layui-input"></div>
+            <div id="passwdArea" style="display: none">
+                <div class="layui-form-item">
+                    <label for="L_oldPwd" class="layui-form-label">
+                        <span class="x-red">*</span>旧密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" id="L_oldPwd" name="oldPwd" lay-verify="oldPwd"
+                               autocomplete="off"
+                               class="layui-input"></div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="L_newPwd" class="layui-form-label">
+                        <span class="x-red">*</span>新密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" id="L_newPwd" name="newPwd" lay-verify="newPwd"
+                               autocomplete="off"
+                               class="layui-input"></div>
+                    <div class="layui-form-mid layui-word-aux">6到16个字符</div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="L_confirmPwd" class="layui-form-label">
+                        <span class="x-red">*</span>确认密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" id="L_confirmPwd" name="confirmPwd" lay-verify="confirmPwd"
+                               autocomplete="off" class="layui-input"></div>
+                </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
@@ -90,6 +97,9 @@
 
     layui.use(['form', 'layer', 'upload'], function () {
         $ = layui.jquery;
+        $("#changePasswd").click(function () {
+            $("#passwdArea").toggle();
+        });
         var form = layui.form,
             upload = layui.upload,
             layer = layui.layer;
@@ -131,43 +141,68 @@
                 }
             },
             oldPwd: function (value, item) {
-                var resultCode;
-                $.ajax({
-                    url: "/admin/v1/password",
-                    type: "GET",
-                    async: false,       //关闭异步
-                    data: {"oldPwd": value},
-                    success: function (s) {
-                        resultCode = s.resultCode;
+                if(!$("#passwdArea").is(":hidden")) {
+                    var reg = /[\S]+/;
+                    if (!reg.test(value)) {
+                        return "必填项不能为空";
                     }
-                });
-                if (resultCode != 200) {
-                    return '旧密码错误，请重新输入！';
+                    value = new Base64().encode(value);
+                    var resultCode;
+                    $.ajax({
+                        url: "/admin/v1/password",
+                        type: "GET",
+                        async: false,       //关闭异步
+                        data: {"oldPwd": value},
+                        success: function (s) {
+                            resultCode = s.resultCode;
+                        }
+                    });
+                    if (resultCode != 200) {
+                        return '旧密码错误，请重新输入！';
+                    }
                 }
             },
-            newPwd: [/(.+){6,12}$/, '密码必须6到12位'],
+            newPwd: function (value){
+                if(!$("#passwdArea").is(":hidden")){
+                    var reg = /[\S]+/;
+                    if(!reg.test(value)){
+                        return "必填项不能为空";
+                    }
+                    var reg = /(.+){6,12}$/;
+                    if(!reg.test(value)){
+                        return '密码必须6到12位';
+                    }
+                }
+            },
             confirmPwd: function (value) {
-                if ($('#L_newPwd').val() != $('#L_confirmPwd').val()) {
-                    return '两次密码不一致';
+                if(!$("#passwdArea").is(":hidden")){
+                    if ($('#L_newPwd').val() != $('#L_confirmPwd').val()) {
+                        return '两次密码不一致';
+                    }
                 }
             }
         });
 
         //监听提交
         form.on('submit(submit)', function (data) {
-            console.log(data.field);
             $.ajax({
                 url: "/admin/v1/userInfo",
                 type: "post",
                 data: data.field,
                 success: function (s) {
                     if (s.resultCode == 200) {
-                        layer.alert("修改成功，即将跳转登录页", {
-                                icon: 6
-                            }, function (index) {
-                                parent.layer.closeAll();
-                                parent.location.href = s.data;
-                            });
+                        if(s.data == "password not change"){
+                            layer.alert("用户信息修改成功");
+                        } else {
+                            layer.msg(
+                                "修改成功，即将跳转登录页", {
+                                    icon: 6,
+                                    time: 2000
+                                }, function (index) {
+                                    parent.layer.closeAll();
+                                    parent.location.href = s.data;
+                                });
+                        }
                     } else {
                         layer.msg(s.message, function () {
                         });

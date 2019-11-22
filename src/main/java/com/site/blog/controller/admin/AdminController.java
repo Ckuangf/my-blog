@@ -136,6 +136,7 @@ public class AdminController {
     @ResponseBody
     @GetMapping("/v1/password")
     public Result validatePassword(String oldPwd, HttpSession session) {
+        oldPwd = new String(Base64Utils.decode(oldPwd.getBytes()));
         Integer userId = (Integer) session.getAttribute(SessionConstants.LOGIN_USER_ID);
         boolean flag = adminUserService.validatePassword(userId, oldPwd);
         if (flag) {
@@ -198,13 +199,15 @@ public class AdminController {
                 .setAdminUserId(loginUserId)
                 .setLoginUserName(userName)
                 .setNickName(nickName);
-        session.setAttribute(SessionConstants.LOGIN_USER_ID,userName);
+        session.setAttribute(SessionConstants.LOGIN_USER_ID,loginUserId);
         session.setAttribute(SessionConstants.LOGIN_USER,nickName);
         if (!StringUtils.isEmpty(newPwd)) {
             adminUser.setLoginPassword(MD5Utils.MD5Encode(newPwd, "UTF-8"));
         }
         if (adminUserService.updateUserInfo(adminUser, blogConfig)) {
             if (StringUtils.isEmpty(newPwd)) {
+                //重设配置信息
+                session.setAttribute("sysList", blogConfigService.list());
                 return ResultGenerator.getResultByHttp(HttpStatusConstants.OK, "password not change");
             } else {
                 //修改密码成功后清空session中的数据，前端控制跳转至登录页

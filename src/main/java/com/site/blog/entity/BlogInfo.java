@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.gitee.sunchenbin.mybatis.actable.annotation.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -112,5 +113,6 @@ private static final long serialVersionUID=1L;
     @TableField("update_time")
     private Date updateTime;
 
-
+    @TableField("istop")
+    private Integer istop;
 }

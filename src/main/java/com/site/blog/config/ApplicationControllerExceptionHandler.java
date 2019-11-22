@@ -3,6 +3,7 @@ package com.site.blog.config;
 import com.site.blog.constants.HttpStatusConstants;
 import com.site.blog.dto.Result;
 import com.site.blog.util.ResultGenerator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,7 +19,7 @@ import java.util.Objects;
  * @author: Cifor
  * @create: 2019-01-17 10:24
  **/
-
+@Slf4j
 @ControllerAdvice
 public class ApplicationControllerExceptionHandler {
 
@@ -48,6 +49,7 @@ public class ApplicationControllerExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public Result handlerError(HttpServletRequest req, Exception e) {
+        log.error(e.getMessage());
         return ResultGenerator.genFailResult("出现异常错误,请及时查看后台日志！");
     }
 
