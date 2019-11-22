@@ -16,12 +16,8 @@ import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.crypto.Cipher;
-
-import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * @qq交流群 796794009
@@ -47,8 +43,6 @@ public class AdminController {
     private BlogConfigService blogConfigService;
     @Autowired
     private BlogLinkService blogLinkService;
-
-    private final String encryptionKey = "cifor";
 
     /**
      * @Description: 跳转登录界面
