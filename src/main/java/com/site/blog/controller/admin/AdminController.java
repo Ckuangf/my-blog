@@ -11,13 +11,17 @@ import com.site.blog.service.*;
 import com.site.blog.util.MD5Utils;
 import com.site.blog.util.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.Cipher;
+
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * @qq交流群 796794009
@@ -44,6 +48,7 @@ public class AdminController {
     @Autowired
     private BlogLinkService blogLinkService;
 
+    private final String encryptionKey = "cifor";
 
     /**
      * @Description: 跳转登录界面
@@ -103,6 +108,14 @@ public class AdminController {
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             return ResultGenerator.getResultByHttp(HttpStatusConstants.BAD_REQUEST);
         }
+//        try {
+//            Cipher instance = Cipher.getInstance(encryptionKey);
+            password = new String(Base64Utils.decode(password.getBytes()));
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchPaddingException e) {
+//            e.printStackTrace();
+//        }
         QueryWrapper<AdminUser> queryWrapper = new QueryWrapper<AdminUser>(
                 new AdminUser().setLoginUserName(username)
                         .setLoginPassword(MD5Utils.MD5Encode(password, "UTF-8"))

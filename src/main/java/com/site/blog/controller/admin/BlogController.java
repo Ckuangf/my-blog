@@ -232,7 +232,7 @@ public class BlogController {
      *
      * @param blogId
      * @return com.site.blog.dto.Result
-     * @date 2019/8/29 14:02
+     * @date 2019/8/29 14:02admin/v1/index
      */
     @ResponseBody
     @PostMapping("/v1/blog/clear")
