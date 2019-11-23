@@ -1,6 +1,8 @@
 package com.site.blog.controller.admin;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.additional.update.impl.UpdateChainWrapper;
 import com.site.blog.constants.BlogStatusConstants;
@@ -285,15 +287,23 @@ public class BlogController {
         return blogInfoService.list();
     }
 
+    /**
+     * 置顶文章
+     * @param topFlag
+     * @param blogId
+     * @return
+     */
     @ResponseBody
     @PostMapping("v1/blog/top")
     public Result topBlog( boolean topFlag, Long blogId){
         if(topFlag){
             QueryWrapper<BlogInfo> blogInfoQueryWrapper = new QueryWrapper<>();
             blogInfoQueryWrapper.orderByDesc("topNum");
-            BlogInfo lastTopBlog = blogInfoService.getOne(blogInfoQueryWrapper);
+            Page<BlogInfo> page = new Page<BlogInfo>(1,1,1);
+            IPage<BlogInfo> page1 = blogInfoService.page(page, blogInfoQueryWrapper);
+            BlogInfo blogInfo = page1.getRecords().get(0);
             BlogInfo byId = blogInfoService.getById(blogId);
-            byId.setTopNum(lastTopBlog.getTopNum() + 1);
+            byId.setTopNum(blogInfo.getTopNum() + 1);
             boolean b = blogInfoService.updateById(byId);
             if(b){
                 return ResultGenerator.getResultByHttp(HttpStatusConstants.OK);

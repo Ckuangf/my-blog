@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<div th:fragment="side-fragment" class="am-u-lg-4 am-u-sm-12 am-u-lg-offset-0 am-u-sm-offset-0 sidebar-container">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<div th:fragment="side-fragment" style="background:#ffffff" class="am-u-lg-4 am-u-sm-12 am-u-lg-offset-0 am-u-sm-offset-0 sidebar-container">
     <section>
         <section>
             <div class="sidebar-header">
@@ -20,7 +20,7 @@
         <section>
             <div class="sidebar-header">
                 <span class="sidebar-header-title">
-                    热门标签
+                    标签分类
                 </span>
             </div>
             <div class="tags ">
@@ -58,18 +58,18 @@
                     点击最多
                 </span>
             </div>
-            <main class="sidebar-lists">
-                <ul>
+            <div class="sidebar-list">
+                <ul class="sidebar-list-body sidebar-list-items">
                     <th:block th:if="${null != hotBlogs}">
                         <th:block th:each="hotBlog : ${hotBlogs}">
-                            <li class="sidebar-list-item"><a class="tag tooltipped tooltipped-n"
-                                                             th:href="@{'/blog/' + ${hotBlog.blogId}}">
+                            <li class="sidebar-list-item"><a th:href="@{'/blog/' + ${hotBlog.blogId}}"
+                                                             class="tag tooltipped tooltipped-n">
                                 <th:block th:text="${hotBlog.blogTitle}"></th:block>
                             </a></li>
                         </th:block>
                     </th:block>
                 </ul>
-            </main>
+            </div>
         </section>
     </section>
 </div>

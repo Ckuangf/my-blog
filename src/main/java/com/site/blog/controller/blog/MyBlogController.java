@@ -85,6 +85,7 @@ public class MyBlogController {
                 .lambda()
                 .eq(BlogInfo::getBlogStatus,BlogStatusConstants.ONE)
                 .eq(BlogInfo::getIsDeleted,BlogStatusConstants.ZERO)
+                .orderByDesc(BlogInfo::getTopNum)
                 .orderByDesc(BlogInfo::getCreateTime));
         PageResult blogPageResult = new PageResult
                 (page.getRecords(), page.getTotal(), 8, pageNum);

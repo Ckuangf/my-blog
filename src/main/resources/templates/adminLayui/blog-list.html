@@ -138,9 +138,10 @@
                 {field: 'blogCategoryName', title: '博客分类',width: "8%", align: 'center', unresize: "true"},
                 {field: 'blogTags', title: '博客标签', align: 'center',width: "15.26%", unresize: "true"},
                 {field: 'blogViews', title: '阅读量',width: "5%", align: 'center', unresize: "true"},
-                {field: 'updateTime', title: '最后修改时间',width: "14%", align: 'center', unresize: "true"},
+                {field: 'topNum', title: '置顶序号',width: "5%", align: 'center', unresize: "true"},
+                {field: 'updateTime', title: '最后修改时间',width: "10%", align: 'center', unresize: "true"},
                 {
-                    field: 'blogStatus', title: '文章状态',width: "9%", align: 'center', unresize: "true", templet: '#blogStatusTool'
+                    field: 'blogStatus', title: '文章状态',width: "8%", align: 'center', unresize: "true", templet: '#blogStatusTool'
                 },
                 {
                     field: 'enableComment',
@@ -300,7 +301,7 @@
                             "blogId": data.blogId,
                             "topFlag": true
                         }, function (s) {
-                            top.layer.msg(s.message);
+                            top.layer.msg(s.message,{time:1000});
                             tableIns.reload();
                         });
                     break;
@@ -310,7 +311,8 @@
                                 "blogId": data.blogId,
                                 "topFlag": false
                             }, function (s) {
-                                layer.msg(s.message);
+                                top.layer.msg(s.message,{time:1000});
+                                tableIns.reload();
                             });
                     break;
                 default:
