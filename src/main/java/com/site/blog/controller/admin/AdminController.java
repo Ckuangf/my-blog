@@ -11,8 +11,8 @@ import com.site.blog.service.*;
 import com.site.blog.util.MD5Utils;
 import com.site.blog.util.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +44,6 @@ public class AdminController {
     @Autowired
     private BlogLinkService blogLinkService;
 
-
     /**
      * @Description: 跳转登录界面
      * @Param: []
@@ -53,7 +52,7 @@ public class AdminController {
      */
     @GetMapping(value = "/v1/login")
     public String login() {
-        return "adminCifor/login";
+        return "adminLayui/login";
     }
 
     /**
@@ -64,7 +63,7 @@ public class AdminController {
      */
     @GetMapping("/v1/welcome")
     public String welcome() {
-        return "adminCifor/welcome";
+        return "adminLayui/welcome";
     }
 
     /**
@@ -76,7 +75,7 @@ public class AdminController {
     @GetMapping("/v1/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "adminCifor/login";
+        return "adminLayui/login";
     }
 
     /**
@@ -87,7 +86,7 @@ public class AdminController {
      */
     @GetMapping("/v1/userInfo")
     public String gotoUserInfo() {
-        return "adminCifor/userInfo-edit";
+        return "adminLayui/userInfo-edit";
     }
 
     /**
@@ -103,6 +102,14 @@ public class AdminController {
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             return ResultGenerator.getResultByHttp(HttpStatusConstants.BAD_REQUEST);
         }
+//        try {
+//            Cipher instance = Cipher.getInstance(encryptionKey);
+            password = new String(Base64Utils.decode(password.getBytes()));
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchPaddingException e) {
+//            e.printStackTrace();
+//        }
         QueryWrapper<AdminUser> queryWrapper = new QueryWrapper<AdminUser>(
                 new AdminUser().setLoginUserName(username)
                         .setLoginPassword(MD5Utils.MD5Encode(password, "UTF-8"))
@@ -129,6 +136,7 @@ public class AdminController {
     @ResponseBody
     @GetMapping("/v1/password")
     public Result validatePassword(String oldPwd, HttpSession session) {
+        oldPwd = new String(Base64Utils.decode(oldPwd.getBytes()));
         Integer userId = (Integer) session.getAttribute(SessionConstants.LOGIN_USER_ID);
         boolean flag = adminUserService.validatePassword(userId, oldPwd);
         if (flag) {
@@ -167,7 +175,7 @@ public class AdminController {
         ));
         session.setAttribute("sysList", blogConfigService.list());
         request.setAttribute("configurations", blogConfigService.getAllConfigs());
-        return "adminCifor/index";
+        return "adminLayui/index";
     }
 
     /**
@@ -191,13 +199,15 @@ public class AdminController {
                 .setAdminUserId(loginUserId)
                 .setLoginUserName(userName)
                 .setNickName(nickName);
-        session.setAttribute(SessionConstants.LOGIN_USER_ID,userName);
+        session.setAttribute(SessionConstants.LOGIN_USER_ID,loginUserId);
         session.setAttribute(SessionConstants.LOGIN_USER,nickName);
         if (!StringUtils.isEmpty(newPwd)) {
             adminUser.setLoginPassword(MD5Utils.MD5Encode(newPwd, "UTF-8"));
         }
         if (adminUserService.updateUserInfo(adminUser, blogConfig)) {
             if (StringUtils.isEmpty(newPwd)) {
+                //重设配置信息
+                session.setAttribute("sysList", blogConfigService.list());
                 return ResultGenerator.getResultByHttp(HttpStatusConstants.OK, "password not change");
             } else {
                 //修改密码成功后清空session中的数据，前端控制跳转至登录页

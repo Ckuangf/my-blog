@@ -55,7 +55,7 @@ CREATE TABLE `tb_blog_comment`  (
   `reply_body` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '回复内容',
   `reply_create_time` datetime(0) NULL DEFAULT NULL COMMENT '回复时间',
   `comment_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否审核通过 0-未审核 1-审核通过',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否删除 0-未删除 1-已删除',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否禁用 0-启用 1-禁用',
   PRIMARY KEY (`comment_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '评论信息表' ROW_FORMAT = Dynamic;
 
@@ -136,7 +136,7 @@ CREATE TABLE `tb_blog_link`  (
   `link_url` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '网站链接',
   `link_description` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '网站描述',
   `link_rank` int(11) NOT NULL DEFAULT 0 COMMENT '用于列表排序',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否删除 0-未删除 1-已删除',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '是否禁用 0-启用 1-禁用',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
   PRIMARY KEY (`link_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '友情链接表' ROW_FORMAT = Dynamic;

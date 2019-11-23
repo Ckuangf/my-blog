@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.gitee.sunchenbin.mybatis.actable.annotation.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -93,7 +94,7 @@ private static final long serialVersionUID=1L;
     private Integer enableComment;
 
     /**
-     * 是否删除 0=否 1=是
+     * 是否禁用 0=否 1=是
      */
     @TableField("is_deleted")
     private Integer isDeleted;
@@ -112,5 +113,9 @@ private static final long serialVersionUID=1L;
     @TableField("update_time")
     private Date updateTime;
 
-
+    /**
+     * 置顶编号
+     */
+    @TableField("topNum")
+    private Integer topNum;
 }

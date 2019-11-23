@@ -10,12 +10,12 @@ package com.site.blog.constants;
 public class BlogStatusConstants {
 
     /**
-     * 此常量表示已删除,也可表示文章已发布,或允许评论
+     * 此常量表示禁用,也可表示文章已发布,或允许评论
      */
     public static final int ONE = 1;
 
     /**
-     * 此常量表示未删除,也可表示文章未发布,或不允许评论
+     * 此常量表示启用,也可表示文章未发布,或不允许评论
      */
     public static final int ZERO = 0;
 

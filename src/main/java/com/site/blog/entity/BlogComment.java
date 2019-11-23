@@ -104,7 +104,7 @@ private static final long serialVersionUID=1L;
     private Integer commentStatus;
 
     /**
-     * 是否删除 0-未删除 1-已删除
+     * 是否删除 0-启用 1-禁用
      */
     @TableField("is_deleted")
     private Integer isDeleted;

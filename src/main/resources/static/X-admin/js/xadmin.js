@@ -122,7 +122,7 @@
 	Xadmin.prototype.get_data = function () {
     if(typeof is_remember!="undefined")
           return false;
-		return cifor.data('tab_list')
+		return layui.data('tab_list')
 	}
 	/**
 	 * [set_data 增加某一项]
@@ -133,7 +133,7 @@
 		if(typeof is_remember!="undefined")
         	return false;
 
-		cifor.data('tab_list', {
+		layui.data('tab_list', {
 		  key: id
 		  ,value: {title:title,url:url}
 		});
@@ -146,7 +146,7 @@
   Xadmin.prototype.get_cate_data = function () {
     if(typeof is_remember!="undefined")
           return false;
-    return cifor.data('cate')
+    return layui.data('cate')
   }
   /**
    * [set_data 增加某一项]
@@ -157,7 +157,7 @@
     if(typeof is_remember!="undefined")
           return false;
 
-    cifor.data('cate', data);
+    layui.data('cate', data);
   };
 	/**
 	 * [del_data 删除某一项]
@@ -168,12 +168,12 @@
 		if(typeof is_remember!="undefined")
         	return false;
 		if(typeof id!="undefined"){
-			cifor.data('tab_list', {
+			layui.data('tab_list', {
 			  key: id
 			  ,remove: true
 			});
 		}else{
-			cifor.data('tab_list',null);
+			layui.data('tab_list',null);
 		}
 	};
 	/**
@@ -186,9 +186,9 @@
         	return false;
 		var tab_list = this.get_data();
 
-		cifor.data('tab_list',null);
+		layui.data('tab_list',null);
 
-		cifor.data('tab_list', {
+		layui.data('tab_list', {
 		  key: id
 		  ,value: tab_list[id]
 		});
@@ -197,10 +197,10 @@
 	
 }(window);
 
-cifor.use(['layer','element','jquery'],function() {
-    layer = cifor.layer;
-    element = cifor.element;
-    $ = cifor.jquery;
+layui.use(['layer','element','jquery'],function() {
+    layer = layui.layer;
+    element = layui.element;
+    $ = layui.jquery;
 
 
     // 打开页面初始
@@ -302,7 +302,7 @@ cifor.use(['layer','element','jquery'],function() {
         $(this).hide();
     });
 
-    $(".cifor-tab-title").on('contextmenu', 'li', function(event) {
+    $(".layui-tab-title").on('contextmenu', 'li', function(event) {
         var tab_left = $(this).position().left;
         var tab_width = $(this).width();
         var left = $(this).position().top;
@@ -316,12 +316,12 @@ cifor.use(['layer','element','jquery'],function() {
         var data_type = $(this).attr('data-type');
         var lay_id = $(this).parents('#tab_right').attr('lay-id');
         if(data_type=='this'){
-          $('.cifor-tab-title li[lay-id='+lay_id+']').find('.cifor-tab-close').click();
+          $('.layui-tab-title li[lay-id='+lay_id+']').find('.layui-tab-close').click();
         }else if(data_type=='other'){
-          $('.cifor-tab-title li').eq(0).find('.cifor-tab-close').remove();
-          $('.cifor-tab-title li[lay-id!='+lay_id+']').find('.cifor-tab-close').click();
+          $('.layui-tab-title li').eq(0).find('.layui-tab-close').remove();
+          $('.layui-tab-title li[lay-id!='+lay_id+']').find('.layui-tab-close').click();
         }else if(data_type=='all'){
-          $('.cifor-tab-title li[lay-id]').find('.cifor-tab-close').click();
+          $('.layui-tab-title li[lay-id]').find('.layui-tab-close').click();
         }
         $('#tab_right').hide();
         $('#tab_show').hide();

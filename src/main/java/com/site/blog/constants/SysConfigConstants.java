@@ -16,7 +16,7 @@ public enum SysConfigConstants {
     SYS_COPY_RIGHT("sysCopyRight","版权所有"),
     SYS_UPDATE_TIME("sysUpdateTime","最后修改时间"),
     DEFAULT_CATEGORY("1","默认分类"),
-    DEFAULT_TAG("1","默认标题");
+    DEFAULT_TAG("1","默认标签");
 
     private final String configField;
     private final String configName;

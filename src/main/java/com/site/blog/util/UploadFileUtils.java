@@ -1,5 +1,6 @@
 package com.site.blog.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
@@ -27,6 +28,11 @@ public class UploadFileUtils {
         String fileName = file.getOriginalFilename();
         return fileName.substring(fileName.lastIndexOf("."));
     }
+
+    public static String getPrefixName(MultipartFile file){
+        String fileName = file.getOriginalFilename();
+        return fileName.substring(0,fileName.lastIndexOf("."));
+    }
     
     /**
      * @Description: 生成文件名称通用方法
@@ -39,6 +45,17 @@ public class UploadFileUtils {
         int random = new Random().nextInt(100);
         StringBuilder tempName = new StringBuilder();
         tempName.append(sdf.format(new Date())).append(random).append(suffixName);
+        return tempName.toString();
+    }
+    //用于blog图片上传
+    public static String getNewFileName(String suffixName,String fileName){
+        if(StringUtils.isEmpty(fileName)){
+            return getNewFileName(suffixName);
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        int random = new Random().nextInt(100);
+        StringBuilder tempName = new StringBuilder();
+        tempName.append(sdf.format(new Date())).append(random).append("_"+fileName).append(suffixName);
         return tempName.toString();
     }
 }
