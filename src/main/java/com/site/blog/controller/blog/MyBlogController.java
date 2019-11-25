@@ -180,7 +180,7 @@ public class MyBlogController {
         request.setAttribute("hotBlogs", blogInfoService.getHotBlog());
         request.setAttribute("hotTags", blogTagService.getBlogTagCountForIndex());
         request.setAttribute("configurations", blogConfigService.getAllConfigs());
-        return "blog/" + theme + "/list";
+        return "blog/" + theme + "/blog-list::blog-list-fragment";
     }
 
     @GetMapping({"/category/{categoryName}"})

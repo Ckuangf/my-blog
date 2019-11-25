@@ -23,15 +23,23 @@
                     标签分类
                 </span>
             </div>
-            <div class="tags ">
+            <div class="tags">
                 <th:block th:if="${null != hotTags}">
                     <th:block th:each="hotTag : ${hotTags}">
-                        <a rel="tag" th:href="@{'/tag/' + ${hotTag.tagId}}">
+                        <a rel="tag" th:onclick="tagFilter([[${hotTag.tagId}]])">
                             <th:block th:text="${hotTag.tagName}+'('+${hotTag.tagCount}+')'"></th:block>
                         </a>
                     </th:block>
                 </th:block>
             </div>
+            <script>
+                // th:href="@{'/tag/' + ${hotTag.tagId}}"
+                function tagFilter (tagId){
+                    console.info(111);
+                    var url = '/tag/'+tagId;
+                    $('.articles-list').load(url);
+                }
+            </script>
         </section>
         <section>
             <div class="sidebar-header">
