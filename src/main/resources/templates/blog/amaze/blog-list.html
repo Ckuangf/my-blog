@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="blog-list-fragment" class="am-u-lg-8 am-u-sm-12"  style="background:#ffffff">
-    <main class="articles-list">
-        <div>
+    <main class="articles-list" style="min-height: auto">
+        <div th:fragment="blog-list-fragment-value">
             <th:block th:if="${null != blogPageResult}">
                 <th:block th:each="blog,iterStat : ${blogPageResult.list}">
                     <article class="am-g blog-entry-article">

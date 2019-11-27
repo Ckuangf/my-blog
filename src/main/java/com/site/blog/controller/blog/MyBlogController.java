@@ -83,8 +83,8 @@ public class MyBlogController {
         Page<BlogInfo> page = new Page<BlogInfo>(pageNum, 8);
         blogInfoService.page(page, new QueryWrapper<BlogInfo>()
                 .lambda()
-                .eq(BlogInfo::getBlogStatus,BlogStatusConstants.ONE)
-                .eq(BlogInfo::getIsDeleted,BlogStatusConstants.ZERO)
+                .eq(BlogInfo::getBlogStatus, BlogStatusConstants.ONE)
+                .eq(BlogInfo::getIsDeleted, BlogStatusConstants.ZERO)
                 .orderByDesc(BlogInfo::getTopNum)
                 .orderByDesc(BlogInfo::getCreateTime));
         PageResult blogPageResult = new PageResult
@@ -117,8 +117,8 @@ public class MyBlogController {
         Page<BlogInfo> page = new Page<BlogInfo>(pageNum, 8);
         blogInfoService.page(page, new QueryWrapper<BlogInfo>()
                 .lambda().like(BlogInfo::getBlogTitle, keyword)
-                .eq(BlogInfo::getBlogStatus,BlogStatusConstants.ONE)
-                .eq(BlogInfo::getIsDeleted,BlogStatusConstants.ZERO)
+                .eq(BlogInfo::getBlogStatus, BlogStatusConstants.ONE)
+                .eq(BlogInfo::getIsDeleted, BlogStatusConstants.ZERO)
                 .orderByDesc(BlogInfo::getCreateTime));
         PageResult blogPageResult = new PageResult
                 (page.getRecords(), page.getTotal(), 8, pageNum);
@@ -158,15 +158,20 @@ public class MyBlogController {
      */
     @GetMapping({"/tag/{tagId}/{pageNum}"})
     public String tag(HttpServletRequest request, @PathVariable("tagId") String tagId, @PathVariable("pageNum") Integer pageNum) {
-        List<BlogTagRelation> list = blogTagRelationService.list(new QueryWrapper<BlogTagRelation>()
-                .lambda().eq(BlogTagRelation::getTagId, tagId));
+        List<BlogTagRelation> list;
+        if ("-1".equals(tagId)) {
+            list = blogTagRelationService.list(new QueryWrapper<BlogTagRelation>());
+        } else {
+            list = blogTagRelationService.list(new QueryWrapper<BlogTagRelation>()
+                    .lambda().eq(BlogTagRelation::getTagId, tagId));
+        }
         PageResult blogPageResult = null;
-        if (!list.isEmpty()){
+        if (!list.isEmpty()) {
             Page<BlogInfo> page = new Page<BlogInfo>(pageNum, 8);
             blogInfoService.page(page, new QueryWrapper<BlogInfo>()
                     .lambda()
-                    .eq(BlogInfo::getBlogStatus,BlogStatusConstants.ONE)
-                    .eq(BlogInfo::getIsDeleted,BlogStatusConstants.ZERO)
+                    .eq(BlogInfo::getBlogStatus, BlogStatusConstants.ONE)
+                    .eq(BlogInfo::getIsDeleted, BlogStatusConstants.ZERO)
                     .in(BlogInfo::getBlogId, list.stream().map(BlogTagRelation::getBlogId).toArray())
                     .orderByDesc(BlogInfo::getCreateTime));
             blogPageResult = new PageResult
@@ -180,7 +185,7 @@ public class MyBlogController {
         request.setAttribute("hotBlogs", blogInfoService.getHotBlog());
         request.setAttribute("hotTags", blogTagService.getBlogTagCountForIndex());
         request.setAttribute("configurations", blogConfigService.getAllConfigs());
-        return "blog/" + theme + "/blog-list::blog-list-fragment";
+        return "blog/" + theme + "/blog-list::blog-list-fragment-value";
     }
 
     @GetMapping({"/category/{categoryName}"})
@@ -202,8 +207,8 @@ public class MyBlogController {
         Page<BlogInfo> page = new Page<BlogInfo>(pageNum, 8);
         blogInfoService.page(page, new QueryWrapper<BlogInfo>()
                 .lambda()
-                .eq(BlogInfo::getBlogStatus,BlogStatusConstants.ONE)
-                .eq(BlogInfo::getIsDeleted,BlogStatusConstants.ZERO)
+                .eq(BlogInfo::getBlogStatus, BlogStatusConstants.ONE)
+                .eq(BlogInfo::getIsDeleted, BlogStatusConstants.ZERO)
                 .eq(BlogInfo::getBlogCategoryName, categoryName)
                 .orderByDesc(BlogInfo::getCreateTime));
         PageResult blogPageResult = new PageResult
@@ -253,7 +258,7 @@ public class MyBlogController {
                 .lambda()
                 .eq(BlogComment::getBlogId, blogId)
                 .eq(BlogComment::getCommentStatus, BlogStatusConstants.ONE)
-                .eq(BlogComment::getIsDeleted,BlogStatusConstants.ZERO)
+                .eq(BlogComment::getIsDeleted, BlogStatusConstants.ZERO)
                 .orderByDesc(BlogComment::getCommentCreateTime));
         PageResult blogPageResult = new PageResult
                 (page.getRecords(), page.getTotal(), 5, commentPage);
@@ -265,12 +270,12 @@ public class MyBlogController {
                 .eq(BlogComment::getCommentStatus, BlogStatusConstants.ONE));
 
         BlogDetailVO blogDetailVO = new BlogDetailVO();
-        BeanUtils.copyProperties(blogInfo,blogDetailVO);
+        BeanUtils.copyProperties(blogInfo, blogDetailVO);
         blogDetailVO.setBlogContent(MarkDownUtils.mdToHtml(blogDetailVO.getBlogContent()));
         blogDetailVO.setCommentCount(blogCommentCount);
         request.setAttribute("blogDetailVO", blogDetailVO);
         request.setAttribute("tagList", tagList);
-        if (!page.getRecords().isEmpty()){
+        if (!page.getRecords().isEmpty()) {
             request.setAttribute("commentPageResult", blogPageResult);
         }
         request.setAttribute("pageName", "详情");
@@ -280,6 +285,7 @@ public class MyBlogController {
 
     /**
      * 友链界面
+     *
      * @param request
      * @return java.lang.String
      * @date 2019/9/6 17:26
@@ -306,6 +312,7 @@ public class MyBlogController {
 
     /**
      * 提交评论
+     *
      * @return com.site.blog.dto.Result
      * @date 2019/9/6 17:40
      */
@@ -319,7 +326,7 @@ public class MyBlogController {
             return ResultGenerator.getFailResult("非法请求");
         }
         boolean flag = blogCommentService.save(blogComment);
-        if (flag){
+        if (flag) {
             return ResultGenerator.getResultByHttp(HttpStatusConstants.OK);
         }
         return ResultGenerator.getResultByHttp(HttpStatusConstants.INTERNAL_SERVER_ERROR);

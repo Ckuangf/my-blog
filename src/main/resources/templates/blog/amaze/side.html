@@ -26,7 +26,7 @@
             <div class="tags">
                 <th:block th:if="${null != hotTags}">
                     <th:block th:each="hotTag : ${hotTags}">
-                        <a rel="tag" th:onclick="tagFilter([[${hotTag.tagId}]])">
+                        <a th:id="'tag_'+${hotTag.tagId}" rel="tag" th:onclick="tagFilter([[${hotTag.tagId}]])">
                             <th:block th:text="${hotTag.tagName}+'('+${hotTag.tagCount}+')'"></th:block>
                         </a>
                     </th:block>
@@ -34,10 +34,19 @@
             </div>
             <script>
                 // th:href="@{'/tag/' + ${hotTag.tagId}}"
+                var tempTagId ;
                 function tagFilter (tagId){
-                    console.info(111);
-                    var url = '/tag/'+tagId;
-                    $('.articles-list').load(url);
+                    if(tempTagId != "#tag_"+tagId){
+                        $(tempTagId).css("borderColor","#f5f5f5");
+                        tempTagId = "#tag_"+tagId;
+                        $(tempTagId).css("borderColor","#0085a1");
+                        var url = '/tag/'+tagId;
+                        $('.articles-list').load(url);
+                    } else {
+                        $(tempTagId).css("borderColor","#f5f5f5");
+                        var url = '/tag/-1';
+                        $('.articles-list').load(url);
+                    }
                 }
             </script>
         </section>
