@@ -119,6 +119,7 @@ public class MyBlogController {
                 .lambda().like(BlogInfo::getBlogTitle, keyword)
                 .eq(BlogInfo::getBlogStatus, BlogStatusConstants.ONE)
                 .eq(BlogInfo::getIsDeleted, BlogStatusConstants.ZERO)
+                .orderByDesc(BlogInfo::getTopNum)
                 .orderByDesc(BlogInfo::getCreateTime));
         PageResult blogPageResult = new PageResult
                 (page.getRecords(), page.getTotal(), 8, pageNum);
@@ -131,7 +132,7 @@ public class MyBlogController {
         request.setAttribute("hotBlogs", blogInfoService.getHotBlog());
         request.setAttribute("hotTags", blogTagService.getBlogTagCountForIndex());
         request.setAttribute("configurations", blogConfigService.getAllConfigs());
-        return "blog/" + theme + "/list";
+        return "blog/" + theme + "/blog-list::blog-list-fragment-value";
     }
 
     /**
@@ -173,6 +174,7 @@ public class MyBlogController {
                     .eq(BlogInfo::getBlogStatus, BlogStatusConstants.ONE)
                     .eq(BlogInfo::getIsDeleted, BlogStatusConstants.ZERO)
                     .in(BlogInfo::getBlogId, list.stream().map(BlogTagRelation::getBlogId).toArray())
+                    .orderByDesc(BlogInfo::getTopNum)
                     .orderByDesc(BlogInfo::getCreateTime));
             blogPageResult = new PageResult
                     (page.getRecords(), page.getTotal(), 8, pageNum);
