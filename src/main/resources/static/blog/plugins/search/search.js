@@ -1,18 +1,22 @@
 $(function () {
-    $('#searchbox').keypress(function (e) {
-        var key = e.which; //e.which是按键的值
-        if (key == 13) {
-            var q = $(this).val();
-            if (q && q != '') {
-                window.location.href = '/search/' + q;
-            }
-        }
+    $('#searchbox').bind('input propertychange', function () {
+        search();
     });
 });
 
+var blankQueryFLag = false;
+
 function search() {
-    var q = $('#searchbox').val();
-    if (q && q != '') {
-        window.location.href = '/search/' + q;
+    var keyword = $('#searchbox').val();
+    if (keyword != '') {
+        blankQueryFLag = true;
+        var url = '/search/' + keyword;
+        $('.articles-list').load(url);
+    } else {
+        if (blankQueryFLag) {
+            var url = '/search/' + keyword;
+            $('.articles-list').load(url);
+            blankQueryFLag = false;
+        }
     }
 }

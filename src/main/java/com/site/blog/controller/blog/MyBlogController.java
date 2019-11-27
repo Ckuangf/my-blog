@@ -106,14 +106,20 @@ public class MyBlogController {
      * @return java.lang.String
      * @date 2019/9/6 7:03
      */
-    @GetMapping({"/search/{keyword}"})
-    public String search(HttpServletRequest request, @PathVariable("keyword") String keyword) {
-        return search(request, keyword, 1);
+    //@PathVariable 中的required = false和/student 连用，表示如果没有{keyword}的时候可以使用/student这个url来匹配，次数keyword 是空的，
+    //而默认的情况下@PathVariable注解的参数是不允许为空的
+    @GetMapping({"/search/{keyword}","/search"})
+    public String search(HttpServletRequest request, @PathVariable(name = "keyword",required = false) String keyword) {
+        if(StringUtils.isEmpty(keyword)){
+            //使用标签查询的接口重置搜索（暂时）
+            return tag(request, "-1", 1);
+        } else {
+            return search(request, keyword, 1);
+        }
     }
 
     @GetMapping({"/search/{keyword}/{pageNum}"})
     public String search(HttpServletRequest request, @PathVariable("keyword") String keyword, @PathVariable("pageNum") Integer pageNum) {
-
         Page<BlogInfo> page = new Page<BlogInfo>(pageNum, 8);
         blogInfoService.page(page, new QueryWrapper<BlogInfo>()
                 .lambda().like(BlogInfo::getBlogTitle, keyword)
